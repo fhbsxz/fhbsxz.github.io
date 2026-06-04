@@ -1,0 +1,1111 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="数论[TOC] 1，扩展欧几里得算法扩展欧几里得算法，简称exgcd，能算出ax+by&#x3D;c的一组整数解(x,y) ·数学推导前置知识：根据辗转相除法，我们已知gcd(a,b)&#x3D;gcd(b,a%b)  证明 证明过程： 首先，我们已知$$a1+b0&#x3D;gcd(a,0)&#x3D;a$$所以我们可以得出一个特解(x&#x3D;1,y&#x3D;0)作为最终状态 递推关系 已">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线段树基础与进阶">
+<meta property="og:url" content="https://fhbsxz.github.io/2026/06/01/%E6%95%B0%E8%AE%BA/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数论[TOC] 1，扩展欧几里得算法扩展欧几里得算法，简称exgcd，能算出ax+by&#x3D;c的一组整数解(x,y) ·数学推导前置知识：根据辗转相除法，我们已知gcd(a,b)&#x3D;gcd(b,a%b)  证明 证明过程： 首先，我们已知$$a1+b0&#x3D;gcd(a,0)&#x3D;a$$所以我们可以得出一个特解(x&#x3D;1,y&#x3D;0)作为最终状态 递推关系 已">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fhbsxz.github.io/img/pag2.png">
+<meta property="article:published_time" content="2026-06-01T08:30:00.000Z">
+<meta property="article:modified_time" content="2026-06-04T12:41:52.066Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fhbsxz.github.io/img/pag2.png">
+  
+  
+  
+  <title>线段树基础与进阶 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fhbsxz.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Beiqi Huang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="线段树基础与进阶"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-01 16:30" pubdate>
+          2026年6月1日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          23k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          190 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">线段树基础与进阶</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="数论"><a href="#数论" class="headerlink" title="数论"></a>数论</h1><p>[TOC]</p>
+<h2 id="1，扩展欧几里得算法"><a href="#1，扩展欧几里得算法" class="headerlink" title="1，扩展欧几里得算法"></a>1，扩展欧几里得算法</h2><p><strong>扩展欧几里得算法，简称exgcd，能算出ax+by&#x3D;c的一组整数解(x,y)</strong></p>
+<h3 id="·数学推导"><a href="#·数学推导" class="headerlink" title="·数学推导"></a>·数学推导</h3><p>前置知识：根据辗转相除法，我们已知<strong>gcd(a,b)&#x3D;gcd(b,a%b)</strong>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/2301_79933754/article/details/137652620">证明</a></p>
+<p><strong>证明过程：</strong></p>
+<p>首先，我们已知<br>$$<br>a<em>1+b</em>0&#x3D;gcd(a,0)&#x3D;a<br>$$<br>所以我们可以得出一个特解(x&#x3D;1,y&#x3D;0)作为最终状态</p>
+<p><strong>递推关系</strong></p>
+<p>已知：<br>$$<br>gcd(a,b)&#x3D;gcd(b,a\bmod b)&#x3D;b*x’+(a\bmod b)*y’<br>$$<br>因为a mod b&#x3D;a-(a&#x2F;b)*b，所以等式可以化作<br>$$<br>b \cdot x’ + (a - \lfloor \frac{a}{b} \rfloor \cdot b) \cdot y’ &#x3D; \gcd(a, b)<br>$$<br>展开并按照 a 和 b 重新整理项：<br>$$<br>a \cdot y’ + b \cdot (x’ - \lfloor \frac{a}{b} \rfloor \cdot y’) &#x3D; \gcd(a, b)<br>$$<br>现在将这个等式与我们想要的等式进行对比，会发现<br>$$<br>\begin{cases} x &#x3D; y’ \ y &#x3D; x’ - \lfloor \frac{a}{b} \rfloor \cdot y’ \end{cases}<br>$$<br>也就是说，假如我们递归到下一层求出了<strong>x’<strong>和</strong>y’</strong>，那么就可以求出这一层的解x和y，然后继续返回上一层，求出上一层的x和y，不断递归</p>
+<p>而代码对于这样过程的实现十分优雅</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 返回 gcd(a, b)，并通过引用带回一组满足 ax + by = gcd(a, b) 的特解</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> &amp;x, <span class="hljs-type">int</span> &amp;y)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (b == <span class="hljs-number">0</span>) &#123;<br>        x = <span class="hljs-number">1</span>;<br>        y = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">return</span> a;<br>    &#125;<br>    <br>    <span class="hljs-type">int</span> g = <span class="hljs-built_in">exgcd</span>(b, a % b, y, x);<br>    <span class="hljs-comment">// 注意这里传入的是 (b, a % b, y, x) </span><br>    <span class="hljs-comment">// 递归调用后，当前的 y 拿到了下一层的 x&#x27;，当前的 x 拿到了下一层的 y&#x27;</span><br>    <br>    <span class="hljs-comment">// 此时 x = y&#x27;, y = x&#x27;</span><br>    <span class="hljs-comment">// 我们需要把 y 更新为 x&#x27; - (a / b) * y&#x27;，即目前的 y - (a / b) * x</span><br>    y -= (a / b) * x; <br>    <br>    <span class="hljs-keyword">return</span> g;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样，我们就可以得到<strong>ax+by&#x3D;c</strong>的一组特解了</p>
+<p>通过这个特解，我们还能求得：<strong>x的最小正整数解，y的最小正整数解，正整数解的数量（这里的正整数解指x和y都为正整数）</strong></p>
+<p>如何做到呢？</p>
+<p>注意到，x和y的合是常数，这意味着，x增大一定量时，y就会减少一定量，反之同理：</p>
+<p>那么这个一定量是多少呢？<br>$$<br>设 x 增加了 \Delta x，y 减少了 \Delta y，代入原方程：a(x + \Delta x) + b(y - \Delta y) &#x3D; c \implies a\cdot\Delta x &#x3D; b\cdot\Delta y<br>$$<br>为了让dx,dy取到最小整数步长，需要在等式两边除以g&#x3D;gcd(a,b)<br>$$<br>\frac{a}{g}\cdot\Delta x &#x3D; \frac{b}{g}\cdot\Delta y<br>$$<br>所因此可以得到：<br>$$<br>\text{dx} &#x3D; \frac{b}{g}, \quad \text{dy} &#x3D; \frac{a}{g}<br>$$<br>所以，任意通解公式为<br>$$<br>\begin{cases} x &#x3D; x_{raw} + k \cdot \text{dx} \ y &#x3D; y_{raw} - k \cdot \text{dy} \end{cases} \quad (k \in \mathbb{Z})<br>$$<br>一开始通过exgcd函数求出的x,y就是x_raw,y_raw</p>
+<p>接下来，像得到x最小正整数解，可以：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++">x_min=(x%dx+dx)%dx;  <span class="hljs-comment">//x可能为负数</span><br><span class="hljs-keyword">if</span>(!x_min)&#123;x_min=dx;&#125;<br><span class="hljs-comment">//此时对应的y</span><br>y1=(c-a*x_min)/b;<br></code></pre></td></tr></table></figure>
+
+<p>由于此时x已经是最小正整数解，那么如果方程有正整数解，那么此时的y必须是正数，否则无正整数解</p>
+<p>当y1大于0时，可求出正整数解的个数<br>$$<br>\text{ans_cnt} &#x3D; \lfloor \frac{y_{\text{corresponding}} - 1}{\text{dy}} \rfloor + 1<br>$$</p>
+<h2 id="2，组合数"><a href="#2，组合数" class="headerlink" title="2，组合数"></a>2，组合数</h2><h3 id="·Lucas-定理"><a href="#·Lucas-定理" class="headerlink" title="·Lucas 定理"></a>·Lucas 定理</h3><p>我们不妨先回忆一下，传统的求组合数的方法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> p[N],inv[N];<br><span class="hljs-comment">//快速幂</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">qpow</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>	 <span class="hljs-type">int</span> ans=<span class="hljs-number">1</span>;<br>	 <span class="hljs-keyword">while</span>(b)<br>	 &#123;<br>	  <span class="hljs-keyword">if</span>(b&amp;<span class="hljs-number">1</span>)&#123;ans=(ans*a)%mod;&#125;<br>	  b&gt;&gt;=<span class="hljs-number">1</span>;<br>	  a=(a*a)%mod;<br> 	 &#125;<br> 	 <span class="hljs-keyword">return</span> ans;<br>&#125;<br><span class="hljs-comment">//组合数计算</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">C</span><span class="hljs-params">(<span class="hljs-type">int</span> m,<span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">if</span>(m&gt;n)&#123;<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;<br>  <span class="hljs-keyword">return</span> (p[n]*inv[n-m]%mod*inv[m])%mod;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br> 	p[<span class="hljs-number">1</span>]=inv[<span class="hljs-number">1</span>]=<span class="hljs-number">1</span>;;<br>	 <span class="hljs-comment">//阶乘，逆元预处理</span><br>	 <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=N;i++)<br>	 &#123;<br> 	 p[i]=(p[i<span class="hljs-number">-1</span>]*i)%mod;<br> 	 inv[i]=<span class="hljs-built_in">qpow</span>(p[i],mod<span class="hljs-number">-2</span>);<br>	 &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>$$<br>不难看出，如果我们要求C_n^m，那么就要预处理n以内的阶乘和逆元，但如果n很大的情况下，如10^{18}，又该如何处理？<br>$$</p>
+<p>$$<br>如果模数 p 是一个较小的质数（比如 p \le 10^5）<br>$$</p>
+<p>这时候，就轮到 <strong>Lucas 定理</strong> 登场了。它可以将巨大的组合数“降维”缩小到 p 的范围内进行计算。<br>$$<br>C_n^m \equiv C_{n \bmod p}^{m \bmod p} \cdot C_{\lfloor n&#x2F;p \rfloor}^{\lfloor m&#x2F;p \rfloor} \pmod p<br>$$</p>
+<p>$$<br>假设把 n 和 m 转换成 p 进制数，设 n &#x3D; (n_k n_{k-1} \dots n_0)<em>p，m &#x3D; (m_k m</em>{k-1} \dots m_0)_p<br>$$</p>
+<p>那么 Lucas 定理实际上是在说：<strong>总的组合数，等于 $p$ 进制下每一位上的数字分别求组合数后的乘积！</strong><br>$$<br>C_n^m \equiv \prod_{i&#x3D;0}^k C_{n_i}^{m_i} \pmod p<br>$$</p>
+<p>$$<br>关键推论: 在 p 进制下，只要 m 的某一位数字大于 n 对应位上的数字（即m_i&gt;n_i）,这一位的组合数 C_{n_i}^{m_i} &#x3D; 0，整个结果就直接是 0。<br>$$</p>
+<p>那么，如何求p进制下的n,m呢？</p>
+<p>已知在十进制下，要获取数组N的第一位，可以由N%10，得到，如果要得到下一位，就先将N&#x3D;N&#x2F;10,然后再重复N%10,</p>
+<p>这样就可以得到数字在10进制下的每一位；</p>
+<p>在p进制下同理，第一位是N%p,接下来将N&#x3D;n&#x2F;p,再求N%p，不断重复得到p进制下的数</p>
+<p>知道这些，就可以理由Lucas定理求组合数了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">int</span> p; <span class="hljs-comment">// 质数模数</span><br><br><span class="hljs-comment">// 快速幂，用于求逆元</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">qpow</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span> </span>&#123;<br>    <span class="hljs-type">int</span> res = <span class="hljs-number">1</span>;<br>    a %= p;<br>    <span class="hljs-keyword">while</span> (b &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (b &amp; <span class="hljs-number">1</span>) res = res * a % p;<br>        a = a * a % p;<br>        b &gt;&gt;= <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-comment">// 预处理阶乘（通常在主函数里做）</span><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAXP = <span class="hljs-number">100005</span>; <br><span class="hljs-type">int</span> fact[MAXP];<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init_fact</span><span class="hljs-params">()</span> </span>&#123;<br>    fact[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; p; ++i) &#123;<br>        fact[i] = fact[i - <span class="hljs-number">1</span>] * i % p;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 1. 底层：求 C(n, m) % p，保证 n, m &lt; p</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">C</span><span class="hljs-params">(<span class="hljs-type">int</span> n, <span class="hljs-type">int</span> m)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (m &lt; <span class="hljs-number">0</span> || m &gt; n) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <span class="hljs-comment">// 核心：上面提到的对应位 m_i &gt; n_i </span><br>    <span class="hljs-keyword">if</span> (m == <span class="hljs-number">0</span> || m == n) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-comment">// C(n, m) = n! / (m! * (n-m)!) </span><br>    <span class="hljs-type">int</span> denominator = fact[m] * fact[n - m] % p;<br>    <span class="hljs-comment">// 费马小定理求逆元：inv = denominator^(p-2) % p</span><br>    <span class="hljs-keyword">return</span> fact[n] * <span class="hljs-built_in">qpow</span>(denominator, p - <span class="hljs-number">2</span>) % p;<br>&#125;<br><br><span class="hljs-comment">// 2. 上层：Lucas 递归</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">lucas</span><span class="hljs-params">(<span class="hljs-type">int</span> n, <span class="hljs-type">int</span> m)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (m == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">C</span>(n % p, m % p) * <span class="hljs-built_in">lucas</span>(n / p, m / p) % p;<br>    <span class="hljs-comment">//先求当前位的组合数，然后递归到下一位继续求</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>理由Lucas定理，可以将组合数的预处理压缩到模数p范围内</strong></p>
+<h3 id="·O-N-线性预处理阶乘逆元"><a href="#·O-N-线性预处理阶乘逆元" class="headerlink" title="·O(N) 线性预处理阶乘逆元"></a>·O(N) 线性预处理阶乘逆元</h3><p>在模数p很大（1e9+7）的情况下，n,m通常不会很大，我们可以用最开始给出的普通方法求组合数<br>但是我们注意到，正常情况下预处理阶乘和逆元的时间复杂度有是O(nlogp)的，因为对于每个阶乘都都要用一次快速幂求逆元</p>
+<p>我们可以用倒推法优化这个过程，因为<br>$$<br>\frac{1}{i!} &#x3D; \frac{i+1}{(i+1)!}<br>$$<br>所以 <strong>i!</strong> 的逆元等于**(i+1)!<strong>的逆元乘</strong>(i+1)**，因此，我们只需求出最大那个数的逆元，就可以倒推得到前面所有数的逆元</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++">f[<span class="hljs-number">0</span>]=<span class="hljs-number">1</span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;++i)<br>&#123;<br>    f[i]=f[i<span class="hljs-number">-1</span>]*i%mod;<br>&#125;<br>inv[n]=<span class="hljs-built_in">qpow</span>(f[n],mod<span class="hljs-number">-2</span>);<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=n<span class="hljs-number">-1</span>;i&gt;=<span class="hljs-number">1</span>;--i)<br>&#123;<br>    inv[i]=inv[i<span class="hljs-number">+1</span>]*(i<span class="hljs-number">+1</span>)%mod;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="3，容斥原理"><a href="#3，容斥原理" class="headerlink" title="3，容斥原理"></a>3，容斥原理</h2><h2 id="4，欧拉函数"><a href="#4，欧拉函数" class="headerlink" title="4，欧拉函数"></a>4，欧拉函数</h2><p>欧拉函数 <strong>f(n)</strong> 表示1到n中与n互质的正整数的<strong>数量</strong></p>
+<p>核心性质1：如果是n是质数，则f(n)&#x3D;n-1</p>
+<p>核心性质2：如果gcd(a,b)&#x3D;&#x3D;1，那么 *<em>f(a</em>b)&#x3D;f(a)<em>f(b)</em>*</p>
+<h3 id="·代码实现"><a href="#·代码实现" class="headerlink" title="·代码实现"></a>·代码实现</h3><p>单次求一个数n的欧拉函数的复杂度是O(n^{1&#x2F;2})的</p>
+<p>计算原理</p>
+<p>![](D:\blog\my-blog\source\img\屏幕截图 2026-05-30 143823.png)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_phi</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>&#123;<br>    <span class="hljs-type">int</span> res = n;<br>    <span class="hljs-comment">// 寻找 n 的所有质因子</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i * i &lt;= n; ++i) &#123;<br>        <span class="hljs-keyword">if</span> (n % i == <span class="hljs-number">0</span>) &#123; <span class="hljs-comment">// i 是 n 的一个质因子</span><br>            res = res / i * (i - <span class="hljs-number">1</span>); <span class="hljs-comment">// 对应公式 res = res * (1 - 1/i)</span><br>            <span class="hljs-keyword">while</span> (n % i == <span class="hljs-number">0</span>) &#123;     <span class="hljs-comment">// 把这个质因子除干净</span><br>                n /= i;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-comment">// 如果最后 n 还有剩，说明剩下一个大于 sqrt(n) 的质因子</span><br>    <span class="hljs-keyword">if</span> (n &gt; <span class="hljs-number">1</span>) &#123;<br>        res = res / n * (n - <span class="hljs-number">1</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>若要求i~n中的所有欧拉函数，可以用线性算法O(n)预处理</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAXN = <span class="hljs-number">1e7</span> + <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> primes[MAXN], cnt = <span class="hljs-number">0</span>;<br><span class="hljs-type">bool</span> is_not_prime[MAXN];<br><span class="hljs-type">int</span> phi[MAXN];<span class="hljs-comment">//欧拉函数</span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">get_phi_sieve</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>&#123;<br>    phi[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; ++i) &#123;<br>        <span class="hljs-keyword">if</span> (!is_not_prime[i]) &#123;<br>            primes[cnt++] = i;<br>            phi[i] = i - <span class="hljs-number">1</span>; <span class="hljs-comment">// 质数的 phi 值是 i-1</span><br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; cnt &amp;&amp; i * primes[j] &lt;= n; ++j) &#123;<br>            is_not_prime[i * primes[j]] = <span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">if</span> (i % primes[j] == <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-comment">// i 包含了 primes[j] 这个质因子</span><br>                <span class="hljs-comment">// 公式中 (1 - 1/p) 的部分在算 phi[i] 时已经乘过了</span><br>                phi[i * primes[j]] = phi[i] * primes[j]; <br>                <span class="hljs-keyword">break</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// i 和 primes[j] 互质，利用积性函数的性质</span><br>                phi[i * primes[j]] = phi[i] * (primes[j] - <span class="hljs-number">1</span>);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="5，费马小定理"><a href="#5，费马小定理" class="headerlink" title="5，费马小定理"></a>5，费马小定理</h2><p>费马小定理的表述非常简洁。假设有一个<strong>质数</strong> $p$，以及一个整数 $a$。</p>
+<p><strong>标准形式：</strong></p>
+<p>$$a^p \equiv a \pmod p$$</p>
+<p><strong>竞赛中最常用的变体（前提条件：$a$ 不能被 $p$ 整除，即 $\gcd(a, p) &#x3D; 1$）：</strong></p>
+<p>我们在等式两边同时约去一个 $a$，就可以得到它的第二种形态：</p>
+<p>$$a^{p-1} \equiv 1 \pmod p$$</p>
+<h3 id="·应用"><a href="#·应用" class="headerlink" title="·应用"></a>·应用</h3><p><strong>1，求逆元</strong></p>
+<p>根据费马小定理：</p>
+<p>$$a^{p-1} \equiv 1 \pmod p$$</p>
+<p>我们把它拆开，写成：</p>
+<p>$$a \cdot a^{p-2} \equiv 1 \pmod p$$</p>
+<p>根据逆元的定义（$a \cdot x \equiv 1 \pmod p$），所以当 $p$ 为质数时，$a$ 的模逆元直接就是 $a^{p-2} \pmod p$</p>
+<p><strong>2，指数降幂</strong></p>
+<p>$$a^b \equiv a^{b \bmod (p-1)} \pmod p$$</p>
+<p>因为$$a^{(p-1)*(p-1)}\equiv a^{p-1} \equiv 1 \pmod p$$</p>
+<p>费马小定理只有在<strong>p是质数</strong>时有效，当p不是质数时，就要引入欧拉定理</p>
+<p>$$a^{\phi(m)} \equiv 1 \pmod m$$ </p>
+<p><em>（前提条件依然是 $\gcd(a, m) &#x3D; 1$）</em> </p>
+<p>在合数情况下：</p>
+<ul>
+<li><strong>求逆元：</strong> $a$ 的逆元是 $a^{\phi(m)-1} \pmod m$（或者干脆退回最稳妥的 exGCD）</li>
+<li><strong>指数降幂：</strong>$a^b \equiv a^{b \bmod \phi(m)} \pmod m$。</li>
+</ul>
+<h2 id="6，莫比乌斯反演"><a href="#6，莫比乌斯反演" class="headerlink" title="6，莫比乌斯反演"></a>6，莫比乌斯反演</h2><h3 id="·莫比乌斯函数"><a href="#·莫比乌斯函数" class="headerlink" title="·莫比乌斯函数"></a>·莫比乌斯函数</h3><p>$$<br>莫比乌斯函数记为\mu(n)<br>$$</p>
+<p>$$<br>\mu(1)&#x3D;1(规定)<br>$$</p>
+<p>$$<br>\mu(n) &#x3D; 0：如果 n 包含任何一个质因数的平方（即存在某个 c_i \ge 2）。比如 n&#x3D;4, 9, 12, 18 等，它们的 \mu 值统统为 0。<br>$$</p>
+<p>$$<br>\mu(n) &#x3D; (-1)^k：如果 n 的所有质因子指数都是 1（即 n &#x3D; p_1 p_2 \dots p_k）。其中 k 是质因子的种类数。<br>$$</p>
+<p>对于莫比乌斯函数，我们只需要记住一个最重要的公式<br>$$<br>\sum_{d|n} \mu(d) &#x3D; [n &#x3D; 1]<br>$$<br>d|n表示枚举所有能整除n的数，【n&#x3D;&#x3D;1】是一个布尔表达式</p>
+<p><strong>当我们把n换成gcd(a,b)</strong>，就会得到<br>$$<br>\sum_{d|\gcd(i, j)} \mu(d) &#x3D; [\gcd(i, j)&#x3D; 1]<br>$$<br><strong>所以有</strong><br>$$<br>[\gcd(i, j) &#x3D; 1] \iff \sum_{d|\gcd(i, j)} \mu(d)<br>$$<br>这是最基础的公式，后续遇到的gcd(i,j)&#x3D;1都可以转换为这个形式</p>
+<p>现在我们先研究如何预处理莫比乌斯函数的值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAXN = <span class="hljs-number">1e6</span> + <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> primes[MAXN], cnt = <span class="hljs-number">0</span>;<br><span class="hljs-type">bool</span> is_not_prime[MAXN];<br><span class="hljs-type">int</span> mu[MAXN]; <span class="hljs-comment">// 存储莫比乌斯函数的值</span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">get_mu</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>&#123;<br>    mu[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>; <span class="hljs-comment">// 边界条件</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; ++i) &#123;<br>        <span class="hljs-keyword">if</span> (!is_not_prime[i]) &#123;<br>            primes[cnt++] = i;<br>            mu[i] = <span class="hljs-number">-1</span>; <span class="hljs-comment">// 质数的 mu 显然是 -1</span><br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; cnt &amp;&amp; i * primes[j] &lt;= n; ++j) &#123;<br>            is_not_prime[i * primes[j]] = <span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">if</span> (i % primes[j] == <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-comment">// i 包含了 primes[j]，所以 i * primes[j] 至少包含了 primes[j] 的平方</span><br>                mu[i * primes[j]] = <span class="hljs-number">0</span>; <br>                <span class="hljs-keyword">break</span>;<span class="hljs-comment">//这里提前break，就像线性质数筛一样，只有最小的……得到，总之就是那个意思</span><br>            &#125;<br>            <span class="hljs-comment">// i 和 primes[j] 互质，积性函数性质：mu[a*b] = mu[a]*mu[b]</span><br>            mu[i * primes[j]] = mu[i] * mu[primes[j]]; <br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>现在我们可以解决一个最基础的问题<br>$$<br>求\sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^M [\gcd(i, j) &#x3D; 1]<br>$$<br>暴力枚举需要O(n^2)的时间复杂度，显然不行，如果引入上面的式子，可以如何变形呢？<br>第一步，直接替换掉gcd(i,j)&#x3D;1<br>$$<br>\sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^M [\gcd(i, j) &#x3D; 1] \iff\sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^M \sum_{d|\gcd(i, j)} \mu(d)<br>$$<br>gcd(i,j)%d&#x3D;&#x3D;0,也就意味着i%d&#x3D;&#x3D;0,j%d&#x3D;&#x3D;0，也就是d|i且d|j，于是就可以变为：<br>$$<br> \sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^M \sum_{d|i \text{ 且 } d|j} \mu(d)<br>$$<br>然后来到最关键的一步，我们当前的顺序是<strong>枚举i,j</strong>，再枚举能同时整除i,j的数d<br>那么我们可以反过来，先<strong>枚举d</strong>，然后枚举（1到n范围内）d的倍数</p>
+<p>而（1到n范围内）d的倍数不就是n&#x2F;d,m&#x2F;d,于是等式就变成：<br>$$<br>Ans &#x3D; \sum_{d&#x3D;1}^N \mu(d) \times \lfloor \frac{N}{d} \rfloor \times \lfloor \frac{M}{d} \rfloor<br>$$<br>这样就可以一次遍历，O(n)地得到答案了</p>
+<p>现在变一下：<br>$$<br>求\sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^M [\gcd(i, j) &#x3D; k]<br>$$<br>第一步，其实只需把枚举范围变为<br>$$<br>\lfloor n&#x2F;k \rfloor 和 \lfloor m&#x2F;k \rfloor<br>$$<br>可以这样想，比如我们要枚举1到10以内所以能被3整除的数，其实就是枚举1到3（10&#x2F;3）内的所有数，所以式子就变为了：<br>$$<br>\sum_{x&#x3D;1}^{\lfloor N&#x2F;k \rfloor} \sum_{y&#x3D;1}^{\lfloor M&#x2F;k \rfloor} [\gcd(x, y) &#x3D; 1]<br>$$<br>剩下的就和上面是一样的了，答案就是：<br>$$<br>Ans &#x3D; \sum_{d&#x3D;1}^N \mu(d) \times \lfloor \frac{N}{kd} \rfloor \times \lfloor \frac{M}{kd} \rfloor<br>$$</p>
+<h3 id="·整除分块优化"><a href="#·整除分块优化" class="headerlink" title="·整除分块优化"></a>·整除分块优化</h3><p>注意到，对于<strong>n&#x2F;d</strong>，d在一定范围内变化时，n&#x2F;d是不变的，那么我们可以把这个不变的区间看成一个块一起计算</p>
+<p>关键点：如何计算这个常数区间的右端点 r？<br>$$<br>对于给定的左端点 l，使得 \lfloor\frac{n}{l}\rfloor &#x3D; \lfloor\frac{n}{r}\rfloor 成立的最大 r 为 r &#x3D; \lfloor\frac{n}{\lfloor n&#x2F;l \rfloor}\rfloor<br>$$<br>&#x2F;&#x2F;自行举例理解</p>
+<p>实现起来也非常简单</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//首先是在预处理部分，将莫比乌斯函数做一个前缀和，以便后续求区间和</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>    ……<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;++i)<br>    &#123;<br>        fro[i]=fro[i<span class="hljs-number">-1</span>]+mu[i];<br>    &#125;<br>&#125;<br><span class="hljs-type">int</span> main<br>&#123;<br>    <span class="hljs-type">int</span> n,m,k;<br>    cin&gt;&gt;n&gt;&gt;m&gt;&gt;k;<br>    <span class="hljs-type">int</span> mi=<span class="hljs-built_in">min</span>(n,m);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-number">1</span>,r;l&lt;=mi;l=r<span class="hljs-number">+1</span>)<br>    &#123;<br>        r=<span class="hljs-built_in">min</span>(&#123;mi,n/(n/l),m/(m/l)&#125;);<br>        <span class="hljs-type">int</span> D=l*k;<br>        ans+=(fro[r]-fro[l<span class="hljs-number">-1</span>])*(n/D)*(m/D);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>现在来看一个更进阶的问题<br>$$<br>求\sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^M \gcd(i, j)<br>$$<br>这样看简直毫无头绪，不妨回忆一下，上面的操作都是将[gcd(i,j)&#x3D;&#x3D;1]替换成莫比乌斯函数，但是这里没有[gcd(i,j)&#x3D;&#x3D;1]这个形式，那就造一个出来<br>$$<br>变为\sum_{k&#x3D;1}^V\sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^M k [\gcd(i, j) &#x3D; k]<br>$$<br>即枚举所有的k，当满足gcd(i,j)&#x3D;&#x3D;k时，这个贡献才会被累加起来，这样和原式的结果是一样的（因为我们遍历了所有可能的k，也就是所有可能的gcd(i,j)）</p>
+<p>那么就可以开始熟悉的变换了<br>$$<br>\sum_{k&#x3D;1}^V k\sum_{d&#x3D;1}^V \mu(d) \times \lfloor \frac{N}{kd} \rfloor \times \lfloor \frac{M}{kd} \rfloor<br>$$<br>这样来看的话，还需要枚举k,d两个遍历，复杂度依旧是n^2的，还需要优化</p>
+<p><strong>接下来一步，是莫比乌斯反演的一个经典变形</strong><br>$$<br>令T&#x3D;kd ,则原式&#x3D;\sum_{k&#x3D;1}^V k\sum_{k|T}^V \mu(\frac{T}{k} ) \times \lfloor \frac{N}{T} \rfloor \times \lfloor \frac{M}{T} \rfloor<br>$$<br>然后把从枚举k变为枚举T(后面会解释原因)<br>$$<br>\sum_{T&#x3D;1}^V \sum_{k|T} k\mu(\frac{T}{k} ) \times \lfloor \frac{N}{T} \rfloor \times \lfloor \frac{M}{T} \rfloor<br>$$<br>为什么要这样变换呢？这看起来似乎更麻烦了，接下来的东西可以让他变得无比简洁</p>
+<h3 id="·狄利克雷卷积"><a href="#·狄利克雷卷积" class="headerlink" title="·狄利克雷卷积"></a>·狄利克雷卷积</h3><p>狄利克雷卷积可以理解为数论函数之间的一种运算规则</p>
+<p>在数论中，如果有两个数论函数 f 和 g，它们的狄利克雷卷积定义为：<br>$$<br>(f * g)(n) &#x3D; \sum_{d|n} f(d)g\left(\frac{n}{d}\right)<br>$$</p>
+<p>$$<br>它的计算规则是:对于任意正整数 n，h(n) 的值等于 n 的所有因数 d 对应的 f(d) 和 g(\frac{n}{d}) 的乘积之和。<br>$$</p>
+<p>注意到，我们要化简的式子中有一部分<br>$$<br>\sum_{k|T} k \mu(\frac{T}{k} )<br>$$<br>这里常数k可以看作一个常数函数id(k)&#x3D;k，那么上面式子就是一个常数函数<em>莫比乌斯函数<br>$$<br>id</em>\mu&#x3D;\sum_{k|T} k \mu(\frac{T}{k} )<br>$$<br>更好的是：<br>$$<br>id*\mu&#x3D;\varphi (欧拉函数)<br>$$<br>证明过程参考如下：</p>
+<p>![](C:\Users\xzbsfh\Pictures\Screenshots\屏幕截图 2026-05-30 140009.png)</p>
+<p>由此，我们的原始就转化成一个非常简单的形式<br>$$<br>\sum_{T&#x3D;1}^V \varphi(T)\times\lfloor \frac{N}{T} \rfloor \times \lfloor \frac{M}{T} \rfloor<br>$$<br>到这里，我们只需预处理欧拉函数，就可以O(n)地算出结果了</p>
+<h3 id="·例题"><a href="#·例题" class="headerlink" title="·例题"></a>·例题</h3><p>1，给定正整数 <em>n</em>，求 1≤<em>x</em>,<em>y</em>≤<em>n</em> 且 gcd(<em>x</em>,<em>y</em>) 为素数的数对 (<em>x</em>,<em>y</em>) 有多少对。</p>
+<p>不难想到，可以构造下列式子<br>$$<br>ans &#x3D; \sum_{p \in Prime} \sum_{x&#x3D;1}^{n} \sum_{y&#x3D;1}^{n} [\gcd(x, y) &#x3D; p]<br>$$<br>然后根据之前学的知识，很容易变形得到<br>$$<br>ans &#x3D; \sum_{p \in Prime} \sum_{d&#x3D;1}^{\lfloor n&#x2F;p \rfloor} \mu(d) \lfloor \frac{n}{pd} \rfloor^2<br>$$<br>然后使用经典变形，设T&#x3D;p*d，枚举T<br>$$<br>ans &#x3D; \sum_{T&#x3D;1}^{n} \lfloor \frac{n}{T} \rfloor^2 \sum_{p|T, p \in Prime} \mu\left(\frac{T}{p}\right)<br>$$<br>到了这一步，我们还需要思考如何计算</p>
+<p>在我们枚举到一个T1时，他的贡献(记为F(t1))就是他的所有质因子的莫比乌斯函数值的合，也就是说，他的贡献来自于他的所有质因子，<br><strong>那么我们可以反过来考虑，一个质因子会为他的倍数（1~n&#x2F;p）提供一个大小为mu[T1&#x2F;p]的贡献</strong></p>
+<p>于是，我们可以预处理每一个质数会提供的贡献</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> maxn 10000007</span><br><span class="hljs-type">int</span> p[maxn];<br><span class="hljs-type">int</span> fp[maxn];<br><span class="hljs-type">int</span> mu[maxn];<br><span class="hljs-type">int</span> fro[maxn];<br><span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">//预处理莫比乌斯函数</span><br>    mu[<span class="hljs-number">1</span>]=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;++i)<br>    &#123;<br>        <span class="hljs-keyword">if</span>(!fp[i])&#123;p[++cnt]=i;mu[i]=<span class="hljs-number">-1</span>;&#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=cnt&amp;&amp;i*p[j]&lt;=n;++j)<br>        &#123;<br>            fp[i*p[j]]=<span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">if</span>(i%p[j]==<span class="hljs-number">0</span>)&#123;mu[i*p[j]]=<span class="hljs-number">0</span>;<span class="hljs-keyword">break</span>;&#125;<br>            mu[i*p[j]]=mu[i]*mu[p[j]];<br>        &#125;<br>    &#125;<br>    <span class="hljs-comment">//预处理每一个质数提供的贡献</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=cnt;++i)<br>    &#123;<br>        <span class="hljs-type">int</span> P=p[i];<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j*P&lt;=n;++j)<br>        &#123;<br>            fro[j*P]+=mu[j];<br>            <span class="hljs-comment">//j当前p提供贡献给一个T，这个T是j*p，（p的倍数）,所以T/p=j</span><br>        &#125;<br>    &#125;<br>    <span class="hljs-comment">//前缀和，用于整除分块</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;++i)<br>    &#123;<br>        fro[i]+=fro[i<span class="hljs-number">-1</span>];<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> n;<br>    cin&gt;&gt;n;<br>    <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-number">1</span>,r;l&lt;=n;l=r<span class="hljs-number">+1</span>)<br>    &#123;<br>        r=n/(n/l);<br>        ans+=(fro[r]-fro[l<span class="hljs-number">-1</span>])*(n/l)*(n/l);<br>    &#125;<br>    cout&lt;&lt;ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-number">0</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>); <br>    <span class="hljs-type">int</span> _=<span class="hljs-number">1</span>;    <br>    <span class="hljs-comment">//cin&gt;&gt;_;</span><br>    <span class="hljs-built_in">f</span>(<span class="hljs-number">10000000</span>);<br>    <span class="hljs-keyword">while</span>(_--)&#123;<span class="hljs-built_in">solve</span>();&#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2，求$(\sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^N ij\gcd(i, j))\bmod p$ </p>
+<p>第一步，先变出gcd(i,j)&#x3D;&#x3D;k;</p>
+<p>$\sum_{k&#x3D;1}^N k\sum_{i&#x3D;1}^N \sum_{j&#x3D;1}^N ij [\gcd(i, j) &#x3D;&#x3D; k]$ </p>
+<p>令i&#x3D;x<em>k,j&#x3D;y</em>k，将式子变为枚举x,y</p>
+<p>$&#x3D;\sum_{k&#x3D;1}^N k^3\sum_{x&#x3D;1}^{N&#x2F;k} \sum_{y&#x3D;1}^{N&#x2F;k} x*y [\gcd(x, y) &#x3D;&#x3D; 1]$ </p>
+<p>然后变出莫比乌斯函数</p>
+<p>$&#x3D;\sum_{k&#x3D;1}^N k^3 \sum_{d&#x3D;1}^n\mu(d) d^2 \sum_{x&#x3D;1}^{N&#x2F;kd} \sum_{y&#x3D;1}^{N&#x2F;kd} x*y$ </p>
+<p>令T&#x3D;kd</p>
+<p>$&#x3D;\sum_{k&#x3D;1}^N k^3 \sum_{k|T}^n \mu(T&#x2F;k) (T&#x2F;k)^2 \sum_{x&#x3D;1}^{N&#x2F;T} \sum_{y&#x3D;1}^{N&#x2F;T} x*y$ </p>
+<p>改变枚举顺序同时化简</p>
+<p>$&#x3D;\sum_{T&#x3D;1}^N T^2 \sum_{k|T} \mu(T&#x2F;k) k \sum_{x&#x3D;1}^{N&#x2F;T} \sum_{y&#x3D;1}^{N&#x2F;T} x*y$ </p>
+<p>最后，卷积变形为欧拉函数</p>
+<p>$&#x3D;\sum^N_{T&#x3D;1}T^2φ(T)\sum_{x&#x3D;1}^{N&#x2F;T} \sum_{y&#x3D;1}^{N&#x2F;T} x*y$</p>
+<p>记S(n)&#x3D;n*(n+1)&#x2F;2, 后半部分可以看作S(N&#x2F;T)^2</p>
+<p>那么我们唯一要解决的就是$$\sum^N_{T&#x3D;1}T^2φ(T)$$ </p>
+<p>这是一个积性函数的前缀和，用线性筛可以O(n)的预处理，但是题目数据来到了10e10，那么就要用到杜教筛了</p>
+<p>回忆一下杜教筛的使用条件，找一个容易求前缀和的辅助函数g，且迪利克雷卷积后的函数f*g的前缀和也容易求<br>这里的 **f  **是$$T^2φ(T)$$ </p>
+<p>已知卷积后的结果是：</p>
+<p>$(f * g)(n) &#x3D; \sum_{d|n} d^2φ(d)g\left(\frac{n}{d}\right)$ </p>
+<p>如果<strong>构造出来的函数能把前面的d^2消掉</strong>，就会让式子更加好算</p>
+<p>我们不妨令$g(x)&#x3D;x^2$</p>
+<p>那么就会有：</p>
+<p>$(f * g)(n) &#x3D; \sum_{d|n} d^2φ(d)\frac{n^2}{d^2}$ </p>
+<p>并且$\sum_{d|i} \varphi(d) &#x3D; i$，那么化简后就会有</p>
+<p>$(f * g)(n) &#x3D; n^2 \cdot n &#x3D; n^3$ </p>
+<p>现在考虑前缀和</p>
+<p>$(f * g)(i) &#x3D; i^3$，它的前缀和是 $\sum i^3 &#x3D; (\frac{n(n+1)}{2})^2$。</p>
+<p>$g(i) &#x3D; i^2$，它的前缀和是 $\sum i^2 &#x3D; \frac{n(n+1)(2n+1)}{6}$</p>
+<p>这两个都可以在 $O(1)$ 内算出来</p>
+<p><strong>代入杜教筛的公式  $$g(1)S(n) &#x3D; \sum_{i&#x3D;1}^{n} (f * g)(i) - \sum_{d&#x3D;2}^{n} g(d) S\left(\lfloor \frac{n}{d} \rfloor\right)$$ 就会有</strong>：</p>
+<p>$$S(n) &#x3D; \left(\frac{n(n+1)}{2}\right)^2 - \sum_{d&#x3D;2}^{n} d^2 S\left(\lfloor \frac{n}{d} \rfloor\right)$$ </p>
+<p>这里的$S(n)$就是$$\sum^N_{T&#x3D;1}T^2φ(T)$$ ，那么还得乘上后面两个等差数列的乘积，最终的答案就是</p>
+<p>$$Ans &#x3D; \sum_{T&#x3D;1}^{n} T^2 \varphi(T) \cdot S_{sum_ij}\left(\lfloor \frac{n}{T} \rfloor\right)^2$$ </p>
+<p>这里注意到，我们要递归地去求的不是Ans，而是上面的$S(n)$ ，我们要预处理前5e6的数据，对于大于这个范围的数据，再通过上面的$S(n)&#x3D;……S(n&#x2F;d)$递归求得</p>
+<p>代码如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX1 0x7fffffff</span><br><span class="hljs-type">const</span> <span class="hljs-type">double</span> PI = <span class="hljs-built_in">acos</span>(<span class="hljs-number">-1.0</span>);<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MOD=<span class="hljs-number">1e9</span><span class="hljs-number">+7</span>;<br>string yes=<span class="hljs-string">&quot;YES&quot;</span>;<br>string no=<span class="hljs-string">&quot;NO&quot;</span>;<br><span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; pii;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> maxn 5000006</span><br><span class="hljs-comment">//mt19937 rng(time(0));</span><br><span class="hljs-type">int</span> ol[maxn],fro[maxn],fp[maxn],p[maxn],cnt=<span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> P;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">cal</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>&#123;<br>    <span class="hljs-comment">//这个是计算 n*(n+1)/2，但是因为要取模不能直接除以2，而且模数不一定是质数，不好用逆元，所以采用提前除掉2的方法</span><br>    <span class="hljs-type">int</span> a = n, b = n + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (a % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>) a /= <span class="hljs-number">2</span>; <br>    <span class="hljs-keyword">else</span> b /= <span class="hljs-number">2</span>;<br>    <span class="hljs-keyword">return</span> (a % P) * (b % P) % P;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>    ol[<span class="hljs-number">1</span>]=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;++i)<br>    &#123;<br>        <span class="hljs-keyword">if</span>(!fp[i])&#123;p[++cnt]=i;ol[i]=i<span class="hljs-number">-1</span>;&#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=cnt&amp;&amp;i*p[j]&lt;=n;++j)<br>        &#123;<br>            fp[i*p[j]]=<span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">if</span>(i%p[j]==<span class="hljs-number">0</span>)&#123;ol[i*p[j]]=ol[i]*p[j];<span class="hljs-keyword">break</span>;&#125;<br>            ol[i*p[j]]=ol[i]*(p[j]<span class="hljs-number">-1</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;++i)<br>    &#123;<br>        fro[i]=(fro[i<span class="hljs-number">-1</span>]+ol[i]%P*(i%P)%P*(i%P)%P)%P;<br>        <span class="hljs-comment">//预处理 ol[i]*i*i</span><br>    &#125;<br>&#125;<br>unordered_map&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt;mp;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>&#123;<br>    <span class="hljs-comment">//这里是计算 n*(n+1)*(2n+1)/6 n^3的前缀和，同样先除掉3和2</span><br>    <span class="hljs-type">int</span> a = n, b = n + <span class="hljs-number">1</span>, c = <span class="hljs-number">2</span> * n + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (a % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>) a /= <span class="hljs-number">2</span>; <span class="hljs-keyword">else</span> b /= <span class="hljs-number">2</span>;<br>    <span class="hljs-keyword">if</span> (a % <span class="hljs-number">3</span> == <span class="hljs-number">0</span>) a /= <span class="hljs-number">3</span>; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (b % <span class="hljs-number">3</span> == <span class="hljs-number">0</span>) b /= <span class="hljs-number">3</span>; <span class="hljs-keyword">else</span> c /= <span class="hljs-number">3</span>;<br>    <br>    <span class="hljs-keyword">return</span> (a % P) * (b % P) % P * (c % P) % P;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">gets</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">//递归求S(n)</span><br>    <span class="hljs-keyword">if</span>(n&lt;maxn)&#123;<span class="hljs-keyword">return</span> fro[n];&#125;<br>    <span class="hljs-keyword">if</span>(mp.<span class="hljs-built_in">count</span>(n))&#123;<span class="hljs-keyword">return</span> mp[n];&#125;<br>    <span class="hljs-type">int</span> temp=<span class="hljs-built_in">cal</span>(n)%P;<br>    temp*=temp;<br>    temp%=P;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-number">2</span>,r;l&lt;=n;l=r<span class="hljs-number">+1</span>)<br>    &#123;<br>        r=n/(n/l);<br>        temp=(temp-(<span class="hljs-built_in">f</span>(r)-<span class="hljs-built_in">f</span>(l<span class="hljs-number">-1</span>)+P)%P*<span class="hljs-built_in">gets</span>(n/l)%P+P)%P;<br>    &#125;<br>    <span class="hljs-keyword">return</span> mp[n]=temp;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getans</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-number">1</span>,r;l&lt;=n;l=r<span class="hljs-number">+1</span>)<br>    &#123;<br>        r=n/(n/l);<br>        <span class="hljs-type">int</span> temp=<span class="hljs-built_in">cal</span>(n/l)%P;<br>        ans+=(<span class="hljs-built_in">gets</span>(r)-<span class="hljs-built_in">gets</span>(l<span class="hljs-number">-1</span>)+P)%P*temp%P*temp%P;<br>        ans%=P;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> n;<br>    cin&gt;&gt;P&gt;&gt;n;<br>    <span class="hljs-built_in">init</span>(<span class="hljs-number">5000005</span>);<br>    cout&lt;&lt;<span class="hljs-built_in">getans</span>(n)&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-number">0</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>); <br>    <span class="hljs-type">int</span> _=<span class="hljs-number">1</span>;    <br>    <span class="hljs-comment">//cin&gt;&gt;_;</span><br>    <span class="hljs-keyword">while</span>(_--)&#123;<span class="hljs-built_in">solve</span>();&#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-杜教筛"><a href="#7-杜教筛" class="headerlink" title="7,杜教筛"></a>7,杜教筛</h2><p>杜教筛用于非线性时间内（快于O(n)）求积性函数的前缀合</p>
+<p>前置知识：</p>
+<h3 id="积性函数"><a href="#积性函数" class="headerlink" title="积性函数"></a>积性函数</h3><p>积性函数：对于任意互质的整数 <em>a</em>,<em>b</em> 有 <em>f</em>(<em>ab</em>)&#x3D;<em>f</em>(<em>a</em>)<em>f</em>(<em>b</em>) 则称 <em>f</em>(<em>x</em>) 的数论函数。</p>
+<p>完全积性函数：对于任意整数 <em>a</em>,<em>b</em> 有 <em>f</em>(<em>ab</em>)&#x3D;<em>f</em>(<em>a</em>)<em>f</em>(<em>b</em>) 的数论函数。</p>
+<ul>
+<li><p>常见的积性函数：<em>φ</em>,<em>μ</em>,<em>σ</em>,<em>d</em>  &#x2F;&#x2F;分别是欧拉函数，莫比乌斯函数，未知，未知</p>
+</li>
+<li><p>常见的完全积性函数：<em>ϵ</em>,<em>I</em>,<em>id</em></p>
+</li>
+</ul>
+<p>这里特殊解释一下 <em>ϵ</em>,<em>I</em>,<em>id</em> 分别是什么意思：元函数 <em>ϵ</em>(<em>n</em>)&#x3D;[<em>n</em>&#x3D;1],常数函数<em>I</em>(<em>n</em>)&#x3D;1,恒等函数<em>id</em>(<em>n</em>)&#x3D;<em>n</em></p>
+<p>结合之前的狄利克雷卷积，可以得到几个常见的式子</p>
+<ol>
+<li><em>μ</em>∗<em>I</em>&#x3D;<em>ϵ</em></li>
+<li><em>φ</em>∗<em>I</em>&#x3D;<em>id</em></li>
+<li><em>μ</em>∗<em>id</em>&#x3D;<em>φ</em></li>
+</ol>
+<h3 id="推理过程"><a href="#推理过程" class="headerlink" title="推理过程"></a>推理过程</h3><p>假设我们要求一个数论函数 $f$ 的前缀和：</p>
+<p>$$S(n) &#x3D; \sum_{i&#x3D;1}^{n} f(i)$$</p>
+<p>如果 $n \le 10^7$，我们直接用<strong>线性筛</strong>，在 $O(N)$ 时间内就搞定了。</p>
+<p>但如果比赛时 $n$ 开到了 $10^9$ 甚至更高，这个时候就需要杜教筛来优化了</p>
+<p><strong>杜教筛的核心是找一个辅助函数来和原函数（我们要求前缀和的函数）来进行狄利克雷卷积，然后构造出式子</strong></p>
+<p>现在，我们强行把 $f$ 和某个辅助函数 $g$ 卷起来，然后求这个<strong>卷积结果的前缀和</strong>：</p>
+<p>$$\sum_{i&#x3D;1}^{n} (f * g)(i)$$</p>
+<p>根据狄利克雷卷积的定义，把 $(f * g)(i)$ 展开：</p>
+<p>$$&#x3D; \sum_{i&#x3D;1}^{n} \sum_{d|i} g(d)f\left(\frac{i}{d}\right)$$</p>
+<p>然后交换枚举顺序</p>
+<p>$$&#x3D; \sum_{d&#x3D;1}^{n} g(d) \sum_{j&#x3D;1}^{\lfloor n&#x2F;d \rfloor} f(j)$$</p>
+<p>注：i&#x3D;j*d</p>
+<p>仔细看后面那一坨 $\sum_{j&#x3D;1}^{\lfloor n&#x2F;d \rfloor} f(j)$，刚好就是我们要求的前缀和函数 $S$ ！它等于 $S(\lfloor \frac{n}{d} \rfloor)$。</p>
+<p>代进去，我们就得到了一个极其优雅的等式：</p>
+<p>$$\sum_{i&#x3D;1}^{n} (f * g)(i) &#x3D; \sum_{d&#x3D;1}^{n} g(d) S\left(\lfloor \frac{n}{d} \rfloor\right)$$</p>
+<p>这是一个前缀和的式子，如果把第一项(d&#x3D;1)提出来，就能得到</p>
+<p>$$&#x3D; g(1)S(n) + \sum_{d&#x3D;2}^{n} g(d) S\left(\lfloor \frac{n}{d} \rfloor\right)$$</p>
+<p>现在，把除 $g(1)S(n)$ 以外的部分移到等式左边，就得到了<strong>杜教筛的终极核心公式</strong>：</p>
+<p>$$g(1)S(n) &#x3D; \sum_{i&#x3D;1}^{n} (f * g)(i) - \sum_{d&#x3D;2}^{n} g(d) S\left(\lfloor \frac{n}{d} \rfloor\right)$$</p>
+<p>这就是最终公式，如果我们保证辅助函数g和构造出来的函数(f*g)的前缀和可以O(1)求出，那么就可以利用这个公式来计算</p>
+<p>处理$$S\left(\lfloor \frac{n}{d} \rfloor\right)$$可以利用整除分块来优化计算，但是发现我们还是需要求类似于S(1e8)的值，那么我们可以这样处理：</p>
+<p>先用线性筛预处理2*$$\sqrt{n}$$的前缀和（为什么是这么多我也不知道）</p>
+<p>然后，我们要求S(n)，需要利用公式求S(n&#x2F;d)，当n&#x2F;d比较大时，我用公式，求S((n&#x2F;d)&#x2F;d)，这样通过递归函数来递归进我们预处理的范围就可以求得，然后配合上记忆化（把求过的值用哈希表存起来）,就可以了</p>
+<p>下面给出两个经典例子，求欧拉函数和莫比乌斯函数的前缀和，n&#x3D;1e9</p>
+<p>1，欧拉函数</p>
+<p>第一步，构造辅助函数g</p>
+<p>因为<em>φ</em>∗<em>I</em>&#x3D;<em>id</em>，<em>I</em>(<em>n</em>)&#x3D;1，</p>
+<p>所以这里g就构造为常数函数 I</p>
+<p>g的前缀和就是n，$f * g$的前缀和就是(n+1)*n&#x2F;2</p>
+<p>$S(n) &#x3D; n*(n+1)&#x2F;2 - \sum_{d&#x3D;2}^n S(n&#x2F;d)$</p>
+<p>2,莫比乌斯函数</p>
+<p>因为<em>μ</em>∗<em>I</em>&#x3D;<em>ϵ</em>，<em>ϵ</em>(<em>n</em>)&#x3D;[<em>n</em>&#x3D;1]</p>
+<p>所以g就构造为ϵ</p>
+<p>g的前缀和就是n，$f * g$的前缀和就是1</p>
+<p>$S(n) &#x3D; 1 - \sum_{d&#x3D;2}^n S(n&#x2F;d)$</p>
+<p>代码如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unordered_map&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-comment">// 数据范围 N 最大到 10^9 甚至 2^31-1</span><br><span class="hljs-comment">// N^(2/3) 大约是 1e6 ~ 2e6 之间，开 5e6 是为了平衡空间和时间，跑得更快</span><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAXN = <span class="hljs-number">5000005</span>; <br><br><span class="hljs-type">int</span> primes[MAXN], cnt = <span class="hljs-number">0</span>;<br><span class="hljs-type">bool</span> st[MAXN];<br><span class="hljs-type">int</span> mu[MAXN];<br><span class="hljs-type">long</span> <span class="hljs-type">long</span> phi[MAXN];<br><span class="hljs-type">long</span> <span class="hljs-type">long</span> sum_mu[MAXN];<br><span class="hljs-type">long</span> <span class="hljs-type">long</span> sum_phi[MAXN];<br><br><span class="hljs-comment">// 记忆化搜索用的哈希表，存储超过 MAXN 的状态</span><br>unordered_map&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>, <span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt; mp_mu;<br>unordered_map&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>, <span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt; mp_phi;<br><br><span class="hljs-comment">// 1. 线性筛预处理 (O(N^(2/3)))</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>&#123;<br>    mu[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>    phi[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt; MAXN; ++i) &#123;<br>        <span class="hljs-keyword">if</span> (!st[i]) &#123;<br>            primes[cnt++] = i;<br>            mu[i] = <span class="hljs-number">-1</span>;<br>            phi[i] = i - <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; cnt &amp;&amp; primes[j] * i &lt; MAXN; ++j) &#123;<br>            st[primes[j] * i] = <span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">if</span> (i % primes[j] == <span class="hljs-number">0</span>) &#123;<br>                mu[primes[j] * i] = <span class="hljs-number">0</span>;<br>                phi[primes[j] * i] = phi[i] * primes[j];<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>            mu[primes[j] * i] = -mu[i];<br>            phi[primes[j] * i] = phi[i] * (primes[j] - <span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 维护前缀和</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; MAXN; ++i) &#123;<br>        sum_mu[i] = sum_mu[i - <span class="hljs-number">1</span>] + mu[i];<br>        sum_phi[i] = sum_phi[i - <span class="hljs-number">1</span>] + phi[i];<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 2. 求欧拉函数 \varphi 的前缀和</span><br><span class="hljs-comment">// 辅助函数 g=1, f*g = \varphi * 1 = id</span><br><span class="hljs-comment">// 公式: S(n) = n*(n+1)/2 - \sum_&#123;d=2&#125;^n S(n/d)</span><br><span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-type">long</span> <span class="hljs-title">get_phi</span><span class="hljs-params">(<span class="hljs-type">long</span> <span class="hljs-type">long</span> n)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (n &lt; MAXN) <span class="hljs-keyword">return</span> sum_phi[n];           <span class="hljs-comment">// 小于阈值，直接 O(1) 返回</span><br>    <span class="hljs-keyword">if</span> (mp_phi.<span class="hljs-built_in">count</span>(n)) <span class="hljs-keyword">return</span> mp_phi[n];     <span class="hljs-comment">// 已经算过了，直接返回</span><br>    <br>    <span class="hljs-comment">// 计算 (f*g) 的前缀和，即 id(i) = i 的前缀和 n*(n+1)/2</span><br>    <span class="hljs-comment">// 细节注意：为了防止两个大 int 相乘爆 long long，必须写 1LL</span><br>    <span class="hljs-type">long</span> <span class="hljs-type">long</span> ans = <span class="hljs-number">1LL</span> * n * (n + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>;<br>    <br>    <span class="hljs-comment">// 整除分块计算减去的那一部分</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> l = <span class="hljs-number">2</span>, r; l &lt;= n; l = r + <span class="hljs-number">1</span>) &#123;<br>        r = n / (n / l);<br>        <span class="hljs-comment">// 区间长度 (r - l + 1) 乘以 S(n/d)</span><br>        ans -= (r - l + <span class="hljs-number">1</span>) * <span class="hljs-built_in">get_phi</span>(n / l);<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> mp_phi[n] = ans; <span class="hljs-comment">// 记忆化并返回</span><br>&#125;<br><br><span class="hljs-comment">// 3. 求莫比乌斯函数 \mu 的前缀和</span><br><span class="hljs-comment">// 辅助函数 g=1, f*g = \mu * 1 = \epsilon</span><br><span class="hljs-comment">// 公式: S(n) = 1 - \sum_&#123;d=2&#125;^n S(n/d)</span><br><span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-type">long</span> <span class="hljs-title">get_mu</span><span class="hljs-params">(<span class="hljs-type">long</span> <span class="hljs-type">long</span> n)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (n &lt; MAXN) <span class="hljs-keyword">return</span> sum_mu[n];          <br>    <span class="hljs-keyword">if</span> (mp_mu.<span class="hljs-built_in">count</span>(n)) <span class="hljs-keyword">return</span> mp_mu[n];     <br>    <br>    <span class="hljs-comment">// 计算 (f*g) 的前缀和，即 \epsilon 的前缀和，永远是 1</span><br>    <span class="hljs-type">long</span> <span class="hljs-type">long</span> ans = <span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> l = <span class="hljs-number">2</span>, r; l &lt;= n; l = r + <span class="hljs-number">1</span>) &#123;<br>        r = n / (n / l);<br>        ans -= (r - l + <span class="hljs-number">1</span>) * <span class="hljs-built_in">get_mu</span>(n / l);<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> mp_mu[n] = ans; <br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// 别忘了调用预处理哦！</span><br>    <span class="hljs-built_in">init</span>();<br>    <br>    <span class="hljs-type">int</span> t;<br>    cin &gt;&gt; t;<br>    <span class="hljs-keyword">while</span> (t--) &#123;<br>        <span class="hljs-type">long</span> <span class="hljs-type">long</span> n;<br>        cin &gt;&gt; n;<br>        cout &lt;&lt; <span class="hljs-built_in">get_phi</span>(n) &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; <span class="hljs-built_in">get_mu</span>(n) &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="8，中国剩余定理-CRT"><a href="#8，中国剩余定理-CRT" class="headerlink" title="8，中国剩余定理(CRT)"></a>8，中国剩余定理(CRT)</h2><p>中剩余定理用于解决特殊的同余方程组，给定</p>
+<p>$$x \equiv a_i \pmod{m_i} \quad (1 \le i \le k)$$ 求出最小的正整数x</p>
+<p>CRT的使用前提是，所有模数**$m_i$**必须两两互质</p>
+<h3 id="·推理过程"><a href="#·推理过程" class="headerlink" title="·推理过程"></a>·推理过程</h3><p>假设我们要构造最终的答案 $x$。为了不让各个方程互相干扰，我们希望 $x$ 是由 $k$ 个部分相加而成的：</p>
+<p>$$x &#x3D; x_1 + x_2 + \dots + x_k$$ </p>
+<p>中国剩余定理的核心思想是，让每个$x_i$只负责自己的部分：</p>
+<p>对于每一个$x_i$，我们要 $x_i \pmod{m_i} &#x3D; a_i$  对于所有其他的模数 $m_j$ ($j \neq i$)，$x_i \pmod{m_j} &#x3D; 0$ </p>
+<p>不难发现，只要满足上述条件，得出的x就能同余方程组</p>
+<p>比如$x\bmod m_1$，对于所有$i!&#x3D;1$，有$x_i \pmod{m_1} &#x3D; 0$ ，所以$x_i可以看作k_i*m1$</p>
+<p>那么此时x就可以看作$x_1+k*m_1$ ,那么$x\bmod m1&#x3D;a_1$，对于i的所有情况下都成立，那么此时的x就是答案</p>
+<p>那么问题就可以转换为，如何构造$x_i$</p>
+<p>首先要让 $x_i$ 能被其他所有模数整除，最简单的办法就是让它包含其他所有模数的乘积。 我们先计算所有模数的总乘积：$M &#x3D; \prod_{i&#x3D;1}^k m_i$ </p>
+<p>然后定义 <strong>$M_i &#x3D; \frac{M}{m_i}$</strong> （即除了 $m_i$ 以外，其他所有模数的乘积）。 显然，由于 $M_i$ 包含了所有其他的 $m_j$，所以 $M_i \equiv 0 \pmod{m_j}$ </p>
+<p>现在我们还要让这个数对$m_i$的余数是$a_i$</p>
+<p>注意到，所有的 $m$ 两两互质，所以 $\gcd(M_i, m_i) &#x3D; 1$。既然互质，我们就一定能求出 $M_i$ 在模 $m_i$ 意义下的<strong>逆元 $t_i$</strong> </p>
+<p>所以有$M_i \cdot t_i \equiv 1 \pmod{m_i}$ </p>
+<p>这时在两边同时乘上$a_i$，就会有</p>
+<p>$$a_i \cdot M_i \cdot t_i \equiv a_i \pmod{m_i}$$ </p>
+<p>左边部分对$m_i$的余数就是$a_i$，这就是我们要的$x_i$ </p>
+<h3 id="·代码"><a href="#·代码" class="headerlink" title="·代码"></a>·代码</h3><p>注意，整个系统的周期是所有模数的乘积 $M$(原因我也不知道) ，所以结果要对M取模</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX1 0x7fffffff</span><br><span class="hljs-type">const</span> <span class="hljs-type">double</span> PI = <span class="hljs-built_in">acos</span>(<span class="hljs-number">-1.0</span>);<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MOD=<span class="hljs-number">1e9</span><span class="hljs-number">+7</span>;<br>string yes=<span class="hljs-string">&quot;YES&quot;</span>;<br>string no=<span class="hljs-string">&quot;NO&quot;</span>;<br><span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; pii;<br><span class="hljs-comment">//mt19937 rng(time(0));</span><br><span class="hljs-type">int</span> m[<span class="hljs-number">20</span>],a[<span class="hljs-number">20</span>];<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b,<span class="hljs-type">int</span>&amp;x,<span class="hljs-type">int</span>&amp;y)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)<br>    &#123;<br>        x=<span class="hljs-number">1</span>;y=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">return</span> a;<br>    &#125;<br>    <span class="hljs-type">int</span> g=<span class="hljs-built_in">exgcd</span>(b,a%b,y,x);<br>    y-=(a/b)*x;<br>    <span class="hljs-keyword">return</span> g;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> n;cin&gt;&gt;n;<br>    <span class="hljs-type">int</span> M=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;++i)&#123;cin&gt;&gt;m[i]&gt;&gt;a[i];M*=m[i];&#125;<span class="hljs-comment">//x%m=a</span><br>    <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;++i)<br>    &#123;<br>        <span class="hljs-type">int</span> Mi=M/m[i];<br>        <span class="hljs-type">int</span> t,y;<br>        <span class="hljs-built_in">exgcd</span>(Mi,m[i],t,y);<span class="hljs-comment">//这里必须用拓欧求逆元，因为题目不保证m[i]是质数，只是m[i]之间互质，所以不能用费马小定理</span><br>        t=(t%m[i]+m[i])%m[i]%M;<br>        ans+=(__int128)(a[i]*Mi)%M*t%M; <span class="hljs-comment">//这里会爆longlong，所以用int128</span><br>        ans%=M;<br>    &#125;<br>    cout&lt;&lt;(ans+M)%M&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;<br>    <br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-number">0</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>); <br>    <span class="hljs-type">int</span> _=<span class="hljs-number">1</span>;    <br>    <span class="hljs-comment">//cin&gt;&gt;_;</span><br>    <span class="hljs-keyword">while</span>(_--)&#123;<span class="hljs-built_in">solve</span>();&#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="9，拓展中国剩余定理-EXCRT"><a href="#9，拓展中国剩余定理-EXCRT" class="headerlink" title="9，拓展中国剩余定理(EXCRT)"></a>9，拓展中国剩余定理(EXCRT)</h2><p>EXCRT可以解决CRT问题（CRT问题要求模数两两互质），并且对模数没用要求，可以解决CRT不能解决的问题，（所以理论上学EXCRT就好了）</p>
+<p>EXCRT通过不断对两个同余方程进行exgcd从而求出答案</p>
+<h3 id="·推理过程-1"><a href="#·推理过程-1" class="headerlink" title="·推理过程"></a>·推理过程</h3><p>现在有两个方程$$\begin{cases} x \equiv a_1 \pmod{m_1} \ x \equiv a_2 \pmod{m_2} \end{cases}$$ 我们希望把他变成一个方程$x &#x3D; a_j + k_j \cdot m_j$ 并且这个方程会满足给出的两个方程，<br>这样<strong>不断合二为一，就可以将方程组化为一个方程</strong>并求出最小正整数解</p>
+<p>已知$$x &#x3D; a_1 + k_1 \cdot m_1$$       $$x &#x3D; a_2 + k_2 \cdot m_2$$ </p>
+<p>联立两个式子得到：$$a_1 + k_1 \cdot m_1 &#x3D; a_2 + k_2 \cdot m_2$$ </p>
+<p>整理一下就有$$m_1 \cdot k_1 - m_2 \cdot k_2 &#x3D; a_2 - a_1$$ </p>
+<p>这就是exgcd可以求解的方程。通过exgcd，我们求出k_1（然后化为最小正整数）</p>
+<p>将k1代回原来的方程$$x &#x3D; a_1 + k_1 \cdot m_1$$ </p>
+<p>那么说明答案的 x 会同余 a1+k1*m1 ，那么 $$a1+k1\cdot m$$就作为新的a1，来联立下一个方程</p>
+<p>新的模数就是lcm(m1,m2)  &#x2F;&#x2F;自行理解</p>
+<h3 id="·代码-1"><a href="#·代码-1" class="headerlink" title="·代码"></a>·代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX1 0x7fffffff</span><br><span class="hljs-type">const</span> <span class="hljs-type">double</span> PI = <span class="hljs-built_in">acos</span>(<span class="hljs-number">-1.0</span>);<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MOD=<span class="hljs-number">1e9</span><span class="hljs-number">+7</span>;<br>string yes=<span class="hljs-string">&quot;YES&quot;</span>;<br>string no=<span class="hljs-string">&quot;NO&quot;</span>;<br><span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; pii;<br><span class="hljs-comment">//mt19937 rng(time(0));</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> maxn 100005</span><br><span class="hljs-type">int</span> m[maxn],a[maxn];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b,<span class="hljs-type">int</span>&amp;x,<span class="hljs-type">int</span>&amp;y)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)<br>    &#123;<br>        x=<span class="hljs-number">1</span>;y=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">return</span> a;<br>    &#125;<br>    <span class="hljs-type">int</span> g=<span class="hljs-built_in">exgcd</span>(b,a%b,y,x);<br>    y-=(a/b)*x;<br>    <span class="hljs-keyword">return</span> g;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> n;cin&gt;&gt;n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;++i)<br>    &#123;<br>        cin&gt;&gt;m[i]&gt;&gt;a[i];<br>    &#125;<br>    <span class="hljs-type">int</span> m1=m[<span class="hljs-number">1</span>],a1=a[<span class="hljs-number">1</span>];<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;++i)<br>    &#123;<br>        <span class="hljs-type">int</span> m2=m[i],a2=a[i];<br>        <span class="hljs-type">int</span> k1,k2;<br>        <span class="hljs-type">int</span> g=<span class="hljs-built_in">exgcd</span>(m1,m2,k1,k2);<br>        <span class="hljs-comment">//if(c%g)&#123;cout&lt;&lt;-1&lt;&lt;&quot;\n&quot;;return;&#125;</span><br>        <span class="hljs-type">int</span> c=a2-a1;<br>        <span class="hljs-type">int</span> dk=m2/g;<br>        k1=((__int128)k1*(c/g))%dk;<br>        <span class="hljs-comment">//注意这里的__int128一定要紧贴k1</span><br>        k1=(k1%dk+dk)%dk;<br>        a1+=k1*m1;<br>        m1*=dk;<br>        <span class="hljs-comment">//注意这里的顺序，先修改m1为新的m1，再对a1进行取模调整</span><br>        a1=(a1%m1+m1)%m1;<br>    &#125;<br>    cout&lt;&lt;a1;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-number">0</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>); <br>    <span class="hljs-type">int</span> _=<span class="hljs-number">1</span>;    <br>    <span class="hljs-comment">//cin&gt;&gt;_;</span><br>    <span class="hljs-keyword">while</span>(_--)&#123;<span class="hljs-built_in">solve</span>();&#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ICPC%E8%AE%AD%E7%BB%83/" class="category-chain-item">ICPC训练</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/ICPC%E8%AE%AD%E7%BB%83/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="category-chain-item">算法竞赛</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="print-no-link">#数据结构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>线段树基础与进阶</div>
+      <div>https://fhbsxz.github.io/2026/06/01/数论/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/06/tree/" title="线段树基础与进阶">
+                        <span class="hidden-mobile">线段树基础与进阶</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,992 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="线段树线段树的各个函数相互配合，相辅相成，每个函数在编写时要考虑与其他函数的配合，最后才能实现功能的完整与适配 线段树可以在O(log N)的时间复杂度内实现单点修改、区间修改、区间查询（区间求和，求区间最大值，求区间最小值)等操作。 （区间修改单点查找，或者单点修改区间查找，可以选择更为简便的树状数组） （最大最小值问题，在离线情况下可选择ST表，即不是边查找边修改，而线段树在在线情况下使用）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线段树基础与进阶">
+<meta property="og:url" content="https://fhbsxz.github.io/2026/05/06/tree/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="线段树线段树的各个函数相互配合，相辅相成，每个函数在编写时要考虑与其他函数的配合，最后才能实现功能的完整与适配 线段树可以在O(log N)的时间复杂度内实现单点修改、区间修改、区间查询（区间求和，求区间最大值，求区间最小值)等操作。 （区间修改单点查找，或者单点修改区间查找，可以选择更为简便的树状数组） （最大最小值问题，在离线情况下可选择ST表，即不是边查找边修改，而线段树在在线情况下使用）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fhbsxz.github.io/img/pag1.png">
+<meta property="article:published_time" content="2026-05-06T11:30:00.000Z">
+<meta property="article:modified_time" content="2026-05-07T13:42:11.942Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fhbsxz.github.io/img/pag1.png">
+  
+  
+  
+  <title>线段树基础与进阶 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fhbsxz.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Beiqi Huang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="线段树基础与进阶"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-06 19:30" pubdate>
+          2026年5月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          79 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">线段树基础与进阶</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="线段树"><a href="#线段树" class="headerlink" title="线段树"></a>线段树</h1><p><em><strong>线段树的各个函数相互配合，相辅相成，每个函数在编写时要考虑与其他函数的配合，最后才能实现功能的完整与适配</strong></em></p>
+<p>线段树可以在O(log N)的时间复杂度内实现单点修改、区间修改、区间查询（区间求和，求区间最大值，求区间最小值)等操作。</p>
+<p>（区间修改单点查找，或者单点修改区间查找，可以选择更为简便的树状数组）</p>
+<p>（最大最小值问题，在离线情况下可选择ST表，即不是边查找边修改，而线段树在在线情况下使用）</p>
+<h2 id="一-建树"><a href="#一-建树" class="headerlink" title="一 建树"></a>一 建树</h2><p>&#x2F;&#x2F;通常先建树，内存不够再考虑动态建树</p>
+<p>maxn：数组长度</p>
+<p>tree[4*maxn] </p>
+<p>lazy[4*maxn] </p>
+<p>通常子节点需要4倍内存</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> p)</span></span><br><span class="hljs-function"></span>&#123;<br> <span class="hljs-keyword">if</span>(l==r)&#123;tree[p]=arr[l];<span class="hljs-keyword">return</span>;<span class="hljs-comment">//记得返回&#125;</span><br> <span class="hljs-type">int</span> mid=l+((r-l)&gt;&gt;<span class="hljs-number">1</span>);<br> <span class="hljs-built_in">build</span>(l,mid,p&lt;&lt;<span class="hljs-number">1</span>);<span class="hljs-built_in">build</span>(mid<span class="hljs-number">+1</span>,r,(p&lt;&lt;<span class="hljs-number">1</span>)|<span class="hljs-number">1</span>);<span class="hljs-comment">//递归建树</span><br> tree[p]=tree[p&lt;&lt;<span class="hljs-number">1</span>]+tree[(p&lt;&lt;<span class="hljs-number">1</span>)|<span class="hljs-number">1</span>];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="二-更新"><a href="#二-更新" class="headerlink" title="二 更新"></a>二 更新</h2><p>对于不同的题目，不同点主要在于push_down函数和push_up函数如何设计</p>
+<h3 id="1-push-down函数（懒标记的下放）"><a href="#1-push-down函数（懒标记的下放）" class="headerlink" title="1,push_down函数（懒标记的下放）"></a>1,push_down函数（懒标记的下放）</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> cl,<span class="hljs-type">int</span> cr,<span class="hljs-type">int</span> p,<span class="hljs-type">int</span> k<span class="hljs-comment">//要加上的值)</span></span></span><br><span class="hljs-params"><span class="hljs-function">&#123;</span></span><br><span class="hljs-params"><span class="hljs-function">  <span class="hljs-keyword">if</span>(l&lt;=cl&amp;&amp;cr&lt;=r)&#123;tree[p]+=(cr-cl<span class="hljs-number">+1</span>)*k;<span class="hljs-keyword">return</span>;<span class="hljs-comment">//记得返回&#125;</span></span></span><br><span class="hljs-params"><span class="hljs-function">  <span class="hljs-comment">//如果当前子节点全部在要修改的区间之内，那么直接修改</span></span></span><br><span class="hljs-params"><span class="hljs-function">  <span class="hljs-type">int</span> mid=cl+((cr-cl)&gt;&gt;<span class="hljs-number">1</span>);</span></span><br><span class="hljs-params"><span class="hljs-function">  push_down(cl,cr,mid);<span class="hljs-comment">//懒标记的下放</span></span></span><br><span class="hljs-params"><span class="hljs-function">  <span class="hljs-keyword">if</span>(l&lt;=mid)&#123;update(l,r,cl,mid,p&lt;&lt;<span class="hljs-number">1</span>,k);&#125;</span></span><br><span class="hljs-params"><span class="hljs-function">  <span class="hljs-keyword">if</span>(r&gt;mid)&#123;update(l,r,mid<span class="hljs-number">+1</span>,cr,(p&lt;&lt;<span class="hljs-number">1</span>)|<span class="hljs-number">1</span>),k)</span></span>;&#125;<br>  tree[p]=tree[p&lt;&lt;<span class="hljs-number">1</span>]+tree[(p&lt;&lt;<span class="hljs-number">1</span>)|<span class="hljs-number">1</span>];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>对于懒标记，如果只有一种修改方式（比如只有加减，或只有乘除时，不需要有额外的考虑），当有多种修改操作时，要考虑优先级</p>
+<p><strong>如果同时有加和乘</strong>（减和除等同），那么在可以这样操作：<br>在乘法懒标记产生时，将加法懒标记也乘上这个值，在标记下放时，永远先下方乘法标记，即让tree[p]*lazy_mul[p]，<br>然后再加上加法懒标记的值，因为此时加法懒标记的值已经被乘过了，所以不会出错</p>
+<p>如果同时还存在覆盖操作（将区间修改为某个值）,则覆盖操作的优先级最高，具体如下：</p>
+<p>当覆盖懒标记产生时，清除其他懒标记（因为之前的操作都没用了），在下放懒标记时，最优先下方覆盖懒标记，在下方其他标记<br>因为此时如果其他标记存在，说明其他标记产生的这个操作是在覆盖之后的。</p>
+<p>以下的代码是只有一种标记的情况</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push_down</span><span class="hljs-params">(<span class="hljs-type">int</span> cl,<span class="hljs-type">int</span> cr,<span class="hljs-type">int</span> mid)</span></span><br><span class="hljs-function"></span>&#123;<br> <span class="hljs-keyword">if</span>(!lazy[p])&#123;<span class="hljs-keyword">return</span>;&#125;<br> <span class="hljs-comment">//更新值</span><br> tree[p&lt;&lt;<span class="hljs-number">1</span>]+=lazy[p]*(mid-cl<span class="hljs-number">+1</span>);<br> tree[(p&lt;&lt;<span class="hljs-number">1</span>)|<span class="hljs-number">1</span>]+=lazy[p]*(cr-mid);<br> <span class="hljs-comment">//更新懒标记</span><br> lazy[p&lt;&lt;<span class="hljs-number">1</span>]=lazy[p];<br> lazy[(p&lt;&lt;<span class="hljs-number">1</span>)|<span class="hljs-number">1</span>]=lazy[p];<br> <span class="hljs-comment">//最后记得清除下放完成的懒标记</span><br> lazy[p]=<span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>懒标记还有一个值得注意的点，如果覆盖操作（或乘操作）是把某一区间的数改为0，那么此时懒标记也会变为0，但是懒标记为0表示该懒标记不存在，所以要加上额外的判断，比如加一个布尔数组来表示懒标记是否存在。</p>
+<h3 id="2-push-up函数"><a href="#2-push-up函数" class="headerlink" title="2,push_up函数"></a>2,push_up函数</h3><p>在一般问题中，push_up函数比较简单，比如求和只需将父节点的值设为两个子节点值的和，最大值问题中可将父节点设为两个子节点中的更大值。</p>
+<p>但是在较为复杂的问题中，push_up函数如何设计也是一个要考虑的点，例如：【<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1558">色板游戏</a>】</p>
+<p>我们需要思考子节点更新后，父节点应该如何更新。</p>
+<h2 id="三-求和（或其他答案）"><a href="#三-求和（或其他答案）" class="headerlink" title="三 求和（或其他答案）"></a>三 求和（或其他答案）</h2><p>下面以求和为例</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getsum</span><span class="hljs-params">(<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> cl,<span class="hljs-type">int</span> cr,<span class="hljs-type">int</span> p)</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">if</span>(l&lt;=cl&amp;&amp;cr&lt;=r)&#123;retrun tree[p];&#125;<br>  <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;<br>  <span class="hljs-type">int</span> mid=l+((r-l)&gt;&gt;<span class="hljs-number">1</span>);<br>  <span class="hljs-keyword">if</span>(l&lt;=mid)&#123;ans+=<span class="hljs-built_in">getsum</span>(l,r,cl,mid,p&lt;&lt;<span class="hljs-number">1</span>);&#125;<br>  <span class="hljs-keyword">if</span>(r&gt;mid)&#123;ans+=<span class="hljs-built_in">getsum</span>(l,r,mid<span class="hljs-number">+1</span>,cr,(p&lt;&lt;<span class="hljs-number">1</span>)|<span class="hljs-number">1</span>);&#125;<br>  <span class="hljs-keyword">return</span> ans;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="典例"><a href="#典例" class="headerlink" title="典例"></a>典例</h2><h3 id="1，合最大的连续子序列"><a href="#1，合最大的连续子序列" class="headerlink" title="1，合最大的连续子序列"></a>1，合最大的连续子序列</h3><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4513#ide">洛谷p4513</a>（vs线段树里面也有代码）</p>
+<h3 id="2，树刨＋线段树"><a href="#2，树刨＋线段树" class="headerlink" title="2，树刨＋线段树"></a>2，树刨＋线段树</h3><p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/877/problem/E">CF877E</a></p>
+<p>如何用线段树维护一颗树上的节点，而非一个序列：<strong>将树转换为序列</strong></p>
+<p>而转换的操作就叫做树刨，实现如下</p>
+<p>前置知识：一个子树内的dfs序是连续的（dfs序即对一颗树进行dfs时访问到该节点的次序，第一个访问到的节点dfs序为1，第二个访问到的为2，以此类推）</p>
+<p>操作的思路就是把一颗树根据dfs序放到一个序列当中去</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> arr[maxn]      <span class="hljs-comment">//原数组，arr[i]是节点i上的数据</span><br>vector&lt;<span class="hljs-type">int</span>&gt;t[maxn];<span class="hljs-comment">//树</span><br><span class="hljs-type">int</span> dfn[maxn]     <span class="hljs-comment">//dfs序</span><br><span class="hljs-type">int</span> siz[maxn]    ;<span class="hljs-comment">//该节点包括他自身的子树大小，用于后续求该节点包含的区间大小</span><br>因为实际修改是对某个节点的子树进行修改，我们要根据他修改的节点，得出其对应在新序列中的区间<br>例如修改节点p,则区间左端点为dfn[p]，右端点为dfn[p]+siz[p]<span class="hljs-number">-1</span><br><span class="hljs-type">int</span> id=<span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> arr2[maxn];<span class="hljs-comment">//得出的新序列</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> p)</span></span><br><span class="hljs-function"></span>&#123;<br>  siz[p]=<span class="hljs-number">1</span>;<br>  dfn[p]=id;<br>  arr2[id++]=arr[p];<br>  <span class="hljs-keyword">if</span>(tree[p].<span class="hljs-built_in">size</span>())<br>  &#123;<br>      <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> b:tree[p])<br>      &#123;<br>        <span class="hljs-built_in">dfs</span>(b);<br>        siz[p]+=siz[b];<br>      &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过以上操作，我们可以将一颗树上的节点转移到序列中，后续只需将arr2[]看作原数组，进行建树等操作，就是正常的线段树操作了</p>
+<h3 id="3，权值线段树"><a href="#3，权值线段树" class="headerlink" title="3，权值线段树"></a>3，权值线段树</h3><p>权值线段树是对数值直接进行维护的线段树，数据范围就是维护的范围，所以通常需要离散化来数据后再用权值线段树来维护</p>
+<p>用权值线段树可以实现普通平衡树的功能：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3369">普通平衡树</a></p>
+<h3 id="4，线段树合并"><a href="#4，线段树合并" class="headerlink" title="4，线段树合并"></a>4，线段树合并</h3><p>线段树合并顾名思义就是合并两颗线段树的每个节点，但很显然如果我们合并两棵普通线段树的所有节点必定会超出时间和空间限制，<br>所以这个技巧只会在特定情况下使用（要开很多棵线段树，但是每颗线段树只有少数节点）</p>
+<p>线段树合并<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4556">例题</a></p>
+<p>题目的解法是树上差分，在u,v两点对种类z的数量+1，在lca(u,v)和fa[lca(u,v)]的z的数量分别减一，这样最后从下往上做类似前缀合的操作就可以还原出答案，问题是，对种类z的数量+1，就意味着需要在树的每个节点上有一个大小为[100000]（z的取值范围）的数组，这显然不可能，于是我们决定在<strong>每个点上建一颗权值线段树</strong></p>
+<p>既然要保证空间复杂度合理，我们必须采用动态开点线段树<br>这里有一个问题，如何建多颗线段树，解决方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> root[maxn];<br><span class="hljs-comment">//root[i]表示以原来那颗树上的节点i为所建的线段树的根节点的编号</span><br><span class="hljs-comment">//而编号就是正常的动态开点线段树中产生，共用一个tot，这不会有问题，动态开点线段树时，线段树的编号是什么不重要，只要他们互不相同就好，编号只是给节点提供一个专属的编号，以便在访问儿子时能找到</span><br></code></pre></td></tr></table></figure>
+
+<p>线段树节点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">t</span><br>&#123;<br>  <span class="hljs-type">int</span> l,r;<span class="hljs-comment">//左右儿子的编号</span><br>  <span class="hljs-comment">//在动态点开线段树中，每个节点的编号可以理解为随机的，并不是之前的父子之间两倍关系，所以要把儿子节点的编号存起来</span><br>  <span class="hljs-type">int</span> num,cal;<br>  <span class="hljs-comment">//本题为权值线段树，Num表示区间中数量最多的数字，cal表示这个最多数字的数量</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>更新操作就是正常的更新操作，只是多一步动态开点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> num,<span class="hljs-type">int</span> cl,<span class="hljs-type">int</span> cr,<span class="hljs-type">int</span>&amp;p,<span class="hljs-type">int</span> tag)</span></span><br><span class="hljs-function"></span>&#123;<br> <span class="hljs-keyword">if</span>(!p)&#123;p=++tot;&#125;<span class="hljs-comment">//因为是引用，所以会帮助传过来的点初始化（比如tree[p].l）</span><br> …………<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="合并操作"><a href="#合并操作" class="headerlink" title="合并操作"></a><strong>合并操作</strong></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++">合并过程中传递的是节点编号<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">hb</span><span class="hljs-params">(<span class="hljs-type">int</span> u,<span class="hljs-type">int</span> v,<span class="hljs-type">int</span> cl,<span class="hljs-type">int</span> cr)</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">if</span>(!u||!v)&#123;<span class="hljs-keyword">return</span> u+v;&#125;<span class="hljs-comment">//如果有一个节点为空，则返回不为空的那个节点的编号</span><br>  <span class="hljs-keyword">if</span>(cl==cr)<span class="hljs-comment">//此时是叶子节点</span><br>  &#123;<br>   tree[u].cal+=tree[v].cal;<span class="hljs-comment">//此时两颗线段树已经来到了掌管同一个数字的节点，直接相加</span><br>   tree[u].num=(tree[u].cal&gt;<span class="hljs-number">0</span>?tree[u].num:<span class="hljs-number">0</span>);<br>   <span class="hljs-keyword">return</span> u;<br>  &#125;<br>  <span class="hljs-type">int</span> mid=(cl+cr)&gt;&gt;<span class="hljs-number">1</span>;<br>  <span class="hljs-comment">//分别合并两颗树的左右节点</span><br>  tree[u].l=<span class="hljs-built_in">hb</span>(tree[u].l,tree[v].l,cl,mid);<br>  tree[u].r=<span class="hljs-built_in">hb</span>(tree[u].r,tree[v].r,mid<span class="hljs-number">+1</span>,cr);<br>  <span class="hljs-built_in">push_up</span>(u);<br>  <span class="hljs-keyword">return</span> u;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最后补充一步这道题的dfs向上合并</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> R = <span class="hljs-number">100000</span>;<br><span class="hljs-type">int</span> ans[maxn];<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> p)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> b : mp[p])<br>    &#123;<br>        <span class="hljs-keyword">if</span> (b == fa[p]) &#123; <span class="hljs-keyword">continue</span>; &#125;<br>        <span class="hljs-built_in">dfs</span>(b);<br>        root[p] = <span class="hljs-built_in">hb</span>(root[p], root[b], <span class="hljs-number">1</span>, R);<br>    &#125;<br>    ans[p] = (tree[root[p]].cal &gt; <span class="hljs-number">0</span> ? tree[root[p]].num : <span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="5，线段树上二分"><a href="#5，线段树上二分" class="headerlink" title="5，线段树上二分"></a>5，线段树上二分</h3><p><img src="D:\blog\my-blog\source\img\image-20260503190022340.png" srcset="/img/loading.gif" lazyload></p>
+<p>例题：<a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/19/D">Points</a></p>
+<h3 id="6，可持久化线段树（主席树）"><a href="#6，可持久化线段树（主席树）" class="headerlink" title="6，可持久化线段树（主席树）"></a>6，可持久化线段树（主席树）</h3><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3919">模板</a></p>
+<p>可持久化线段树可以记录下（任何一种）每次线段树修改后的版本，使我们可以访问历史版本</p>
+<p>如何是实现呢，最朴素的想法就是每一次修改都建一颗线段树，但很显然时间和空间都不允许<br>注意到，每次对线段树进行单点修改时，<strong>发生变化的只有树上的一条链，也就是logn大小的一条链</strong>，那我们不妨只新建一条新链剩下不变的就使用旧节点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++">单点修改，修改的是历史版本<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> pos, <span class="hljs-type">int</span> cl, <span class="hljs-type">int</span> cr, <span class="hljs-type">int</span> p, <span class="hljs-type">int</span> q, <span class="hljs-type">int</span> v)</span><span class="hljs-comment">//p为当前版本的节点编号，q为历史版本的节点编号</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (cl == cr) &#123; tree[p].v = v; <span class="hljs-keyword">return</span>; &#125;<span class="hljs-comment">//到达叶子节点</span><br>    tree[p] = tree[q];      <span class="hljs-comment">//复制历史版本</span><br>    <span class="hljs-type">int</span> mid = (cl + cr) &gt;&gt; <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (pos &lt;= mid) &#123; tree[p].l = ++tot; <span class="hljs-built_in">update</span>(pos, cl, mid, tree[p].l, tree[q].l, v); &#125;<br>    <span class="hljs-comment">//需要修改的链在左端，则往左遍历，并且对新链要新建节点</span><br>    <span class="hljs-keyword">else</span> &#123; tree[p].r = ++tot; <span class="hljs-built_in">update</span>(pos, mid + <span class="hljs-number">1</span>, cr, tree[p].r, tree[q].r, v); &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>主席树能解决的最经典的问题是区间[l,r]内第k小的数</strong></p>
+<p>思路，如果是全范围内的第k小的数，可以用权值线段树来解决，如果是[l,r]范围，我们无法对每个区间[l,r]都建一棵树<br>但是我们可以利用前缀和的思想，对每个前缀数组建一棵树，这样只要每次差分出区间范围就能得到答案，而对每个前缀区间建树正好可以看作每次新加一个点的更新操作，然后保留历史版本</p>
+<p>（注意，对于数组【1，2，2，5】，数字5的排名是4而不是3，所以每个数字加入权值线段树时都会提供贡献）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> pos, <span class="hljs-type">int</span> cl, <span class="hljs-type">int</span> cr, <span class="hljs-type">int</span> p,<span class="hljs-type">int</span> q)</span></span><br><span class="hljs-function"></span>&#123;<br>    tree[p] = tree[q];<br>    tree[p].v++;     <span class="hljs-comment">//访问到的链上的节点必定大小会加一</span><br>    <span class="hljs-keyword">if</span> (cl == cr) &#123; <span class="hljs-keyword">return</span>; &#125;<br>    <span class="hljs-type">int</span> mid = (cl + cr) &gt;&gt; <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (pos &lt;= mid) &#123; tree[p].l = ++tot; <span class="hljs-built_in">update</span>(pos, cl, mid, tree[p].l, tree[q].l); &#125;<br>    <span class="hljs-keyword">else</span> &#123; tree[p].r = ++tot; <span class="hljs-built_in">update</span>(pos, mid + <span class="hljs-number">1</span>, cr, tree[p].r, tree[q].r); &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>而询问操作可以不用合并出一个线段树出来，而是直接边判断边访问</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-type">int</span> cl, <span class="hljs-type">int</span> cr, <span class="hljs-type">int</span> p, <span class="hljs-type">int</span> q, <span class="hljs-type">int</span> v)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (cl == cr) &#123; <span class="hljs-keyword">return</span> cl; &#125;<br>    <span class="hljs-type">int</span> mid = (cl + cr) &gt;&gt; <span class="hljs-number">1</span>;<br>    <span class="hljs-type">int</span> ls = tree[tree[p].l].v - tree[tree[q].l].v;                 <span class="hljs-comment">//左子树大小</span><br>    <span class="hljs-keyword">if</span> (ls &gt;= v) &#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">query</span>(cl, mid, tree[p].l, tree[q].l, v); &#125;<span class="hljs-comment">//像权值线段树一样的操作</span><br>    <span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">query</span>(mid + <span class="hljs-number">1</span>, cr, tree[p].r, tree[q].r, v - ls); &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3963">一道典型的例题</a></p>
+<h2 id="复杂线段树案例"><a href="#复杂线段树案例" class="headerlink" title="复杂线段树案例"></a>复杂线段树案例</h2><h3 id="1，序列操作"><a href="#1，序列操作" class="headerlink" title="1，序列操作"></a>1，<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2572#ide">序列操作</a></h3><p>对于该题，我们需要用<strong>线段树维护八个数值</strong>，分别是区间0&#x2F;1的数量，区间从左开始的最长0&#x2F;1序列长度，从右开始最长0&#x2F;1序列长度<br>（之所以还要同时维护关于0的数值，是为了方便在区间取反时一键操作）</p>
+<p>在这种维护多个数值的情况下，最好使用结构体来存储</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">p</span><br>&#123;<br>    <span class="hljs-type">int</span> w, b, lw, lb, rw, rb, mw, mb;<br>    <span class="hljs-built_in">p</span>(<span class="hljs-type">int</span> w = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> b = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> lw = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> lb = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> rw = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> rb = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> mw = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> mb = <span class="hljs-number">0</span>)<br>        :<span class="hljs-built_in">w</span>(w), <span class="hljs-built_in">b</span>(b), <span class="hljs-built_in">lw</span>(lw), <span class="hljs-built_in">lb</span>(lb), <span class="hljs-built_in">rw</span>(rw), <span class="hljs-built_in">rb</span>(rb), <span class="hljs-built_in">mw</span>(mw), <span class="hljs-built_in">mb</span>(mb) &#123;<br>    &#125;<br>    <span class="hljs-comment">//快速赋值</span><br>&#125;tree[<span class="hljs-number">4</span> * maxn];<br></code></pre></td></tr></table></figure>
+
+<p>根据线段树的核心思路，我们要考虑的只有如何设计push_down,push_up函数</p>
+<p>【1】合并函数</p>
+<p>就像典例1中的合并子序列，我们很容易想到在push_up的过程中，我们需要考虑将<strong>两个儿子的中间部分合并</strong>（左儿子的右，右儿子的左），以寻求区间最长1序列</p>
+<p>由此我们设计合并函数，该合并函数不仅用于push_up，也用于最后的答案寻找</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">inline</span> p <span class="hljs-title">hb</span><span class="hljs-params">(p p1, p p2)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">p</span>(p<span class="hljs-number">1.</span>w + p<span class="hljs-number">2.</span>w, p<span class="hljs-number">1.</span>b + p<span class="hljs-number">2.</span>b,<br>        (p<span class="hljs-number">1.</span>b ? p<span class="hljs-number">1.l</span>w : p<span class="hljs-number">1.</span>w + p<span class="hljs-number">2.l</span>w), (p<span class="hljs-number">1.</span>w ? p<span class="hljs-number">1.l</span>b : p<span class="hljs-number">1.</span>b + p<span class="hljs-number">2.l</span>b),<br>        <span class="hljs-comment">//在我们考虑父节点的lw时，要考虑他的左儿子是不是全是w（代码体现为b=0），如果是，则要和右儿子的rw连接，其他同理</span><br>        (p<span class="hljs-number">2.</span>b ? p<span class="hljs-number">2.</span>rw : p<span class="hljs-number">2.</span>w + p<span class="hljs-number">1.</span>rw), (p<span class="hljs-number">2.</span>w ? p<span class="hljs-number">2.</span>rb : p<span class="hljs-number">2.</span>b + p<span class="hljs-number">1.</span>rb),<br>        <span class="hljs-built_in">max</span>(<span class="hljs-built_in">max</span>(p<span class="hljs-number">1.</span>mw, p<span class="hljs-number">2.</span>mw), p<span class="hljs-number">1.</span>rw + p<span class="hljs-number">2.l</span>w), <span class="hljs-built_in">max</span>(<span class="hljs-built_in">max</span>(p<span class="hljs-number">1.</span>mb, p<span class="hljs-number">2.</span>mb), p<span class="hljs-number">1.</span>rb + p<span class="hljs-number">2.l</span>b)<br>    );<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样建树过程中，父节点如下形成</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">tree[i] = <span class="hljs-built_in">hb</span>(tree[i &lt;&lt; <span class="hljs-number">1</span>], tree[(i &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span>]);<br></code></pre></td></tr></table></figure>
+
+<p>【2】懒标记发放</p>
+<p>然后我们考虑如何设计push_down，题目一共有三种操作，两种赋值和一个取反，根据懒标记下方顺序规则，我们先下放赋值再下放取反（如果实际顺序是先取反后赋值，那么取反的懒标记会被清空，符合实际：后赋值操作会清除此前的一切操作影响，如果是先赋值后取反，取反标记依旧存在，符合实际）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">push_down</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">//先执行赋值，再执行取反</span><br>    <span class="hljs-keyword">if</span> (~tag1[i])  <span class="hljs-comment">//~a=-(a+1) 当a=-1时，括号内为0</span><br>    &#123;<br>        <span class="hljs-built_in">tag</span>(i &lt;&lt; <span class="hljs-number">1</span>, tag1[i]); <span class="hljs-built_in">tag</span>((i &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span>, tag1[i]);<br>        <span class="hljs-comment">//tag函数如下</span><br>    &#125;<br>    <span class="hljs-keyword">if</span> (tag2[i])<br>    &#123;<br>        <span class="hljs-built_in">tag</span>(i &lt;&lt; <span class="hljs-number">1</span>, <span class="hljs-number">2</span>), <span class="hljs-built_in">tag</span>((i &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span>, <span class="hljs-number">2</span>);<br>    &#125;<br>    tag1[i] = <span class="hljs-number">-1</span>, tag2[i] = <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在<strong>操作种类较多</strong>时可以我们可以<strong>专门设计一个函数来实现对应标记的修改操作</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">tag</span><span class="hljs-params">(<span class="hljs-type">int</span> i, <span class="hljs-type">int</span> typ)</span></span><br><span class="hljs-function"></span>&#123;<br>    p&amp; o = tree[i];<br>    <span class="hljs-keyword">if</span> (typ == <span class="hljs-number">0</span>)<br>    &#123;<br>        tag1[i] = <span class="hljs-number">0</span>, tag2[i] = <span class="hljs-number">0</span>;<br>        o = <span class="hljs-built_in">p</span>(len[i], <span class="hljs-number">0</span>, len[i], <span class="hljs-number">0</span>, len[i], <span class="hljs-number">0</span>, len[i], <span class="hljs-number">0</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (typ == <span class="hljs-number">1</span>)<br>    &#123;<br>        tag1[i] = <span class="hljs-number">1</span>, tag2[i] = <span class="hljs-number">0</span>;<br>        o = <span class="hljs-built_in">p</span>(<span class="hljs-number">0</span>, len[i], <span class="hljs-number">0</span>, len[i], <span class="hljs-number">0</span>, len[i], <span class="hljs-number">0</span>, len[i]);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        tag2[i] ^= <span class="hljs-number">1</span>;<br>        <span class="hljs-built_in">swap</span>(o.b, o.w), <span class="hljs-built_in">swap</span>(o.lw, o.lb), <span class="hljs-built_in">swap</span>(o.rw, o.rb), <span class="hljs-built_in">swap</span>(o.mw, o.mb);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样update函数就可以根据不同的typ直接调用tag函数进行对应的修改</p>
+<p>【3】获取答案</p>
+<p>这题还有一个值得注意的是，获取答案的过程</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">p <span class="hljs-title">getans</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r, <span class="hljs-type">int</span> cl, <span class="hljs-type">int</span> cr, <span class="hljs-type">int</span> i)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (l &lt;= cl &amp;&amp; cr &lt;= r) &#123; <span class="hljs-keyword">return</span> tree[i]; &#125;<br>    <span class="hljs-keyword">if</span> (cr&lt;l || cl&gt;r) &#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">p</span>(); &#125;<br>    <span class="hljs-type">int</span> m = ((cl + cr) &gt;&gt; <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">push_down</span>(i);<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">hb</span>(<span class="hljs-built_in">getans</span>(l, r, cl, m, i &lt;&lt; <span class="hljs-number">1</span>), <span class="hljs-built_in">getans</span>(l, r, m + <span class="hljs-number">1</span>, cr, (i &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span>));<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>传统的获取答案方法只会访问在合法范围内的答案，但我们发现最后的答案获取是用hb函数合并两个答案区间获取，<br>所以我们选择<strong>不考虑范围地去访问儿子</strong>，如果儿子不在范围内，则<strong>返回一个空的区间</strong></p>
+<h3 id="2，Djangle-的数据结构"><a href="#2，Djangle-的数据结构" class="headerlink" title="2，Djangle 的数据结构"></a>2，<a target="_blank" rel="noopener" href="https://mirror.codeforces.com/group/A5KcfGn880/contest/682064/problem/E">Djangle 的数据结构</a></h3><p>不妨想想一个问题，如果线段树要同时实现<strong>区间修改</strong>已经部分的<strong>暴力单点修改</strong>，我们该如何做，线段树并不会修改原数组，他的所有操作都是在树上完成的，所以，看似是某段区间的暴力一个一个修改，他在线段树中的体现实际是<strong>递归到叶子节点再进行修改。</strong></p>
+<p>在本题中，我们在开始时需要对区间内一段数进行暴力地一个一个修改，代码的实现如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r, <span class="hljs-type">int</span> cl, <span class="hljs-type">int</span> cr, <span class="hljs-type">int</span> p, <span class="hljs-type">int</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (l &lt;= cl &amp;&amp; cr &lt;= r)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (tree[p].lcm != INF &amp;&amp; x % tree[p].lcm == <span class="hljs-number">0</span>) &#123; <span class="hljs-keyword">return</span>; &#125;<br>        <span class="hljs-keyword">if</span> (tree[p].ma == tree[p].mi) &#123; <span class="hljs-type">int</span> t = <span class="hljs-built_in">gcd</span>(x, tree[p].ma); lazy[p] = t; <span class="hljs-built_in">apply</span>(p, cl, cr, t); <br>        <span class="hljs-comment">//ma==mi表示区间中的所有数都相等，当我们遍历到这么一个区间时，可以直接对一整个区间进行操作，</span><br>        <span class="hljs-comment">//同时，这样的递归方法本质上就实现了在数组一开始各数都不相同时的一个一个遍历修改</span><br>        <span class="hljs-keyword">return</span>; &#125;<br>    &#125;<br>    <span class="hljs-type">int</span> m = ((cl + cr) &gt;&gt; <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">push_down</span>(p, cl, cr, m);<br>    <span class="hljs-keyword">if</span> (l &lt;= m) &#123; <span class="hljs-built_in">update</span>(l, r, cl, m, p &lt;&lt; <span class="hljs-number">1</span>, x); &#125;<br>    <span class="hljs-keyword">if</span> (r &gt; m) &#123; <span class="hljs-built_in">update</span>(l, r, m + <span class="hljs-number">1</span>, cr, (p &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span>, x); &#125;<br>    <span class="hljs-built_in">push_up</span>(p);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3，宝可梦图鉴"><a href="#3，宝可梦图鉴" class="headerlink" title="3，宝可梦图鉴"></a>3，<a target="_blank" rel="noopener" href="https://codeforces.com/gym/105941">宝可梦图鉴</a></h3><p>实现：权值线段树＋珂朵莉树</p>
+<p>思路：从问题出发，题目要求问种类最多且编号最小，我们考虑用权值线段树维护</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">push_up</span><span class="hljs-params">(<span class="hljs-type">int</span> p)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (tree[p &lt;&lt; <span class="hljs-number">1</span>].v &gt;= tree[(p &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span>].v)<span class="hljs-comment">//如果小的值数量更多或者一样的情况，选小的值</span><br>    &#123; <br>      tree[p].v = tree[p &lt;&lt; <span class="hljs-number">1</span>].v; tree[p].id = tree[p &lt;&lt; <span class="hljs-number">1</span>].id;<br>    &#125;<br>    <span class="hljs-keyword">else</span> &#123; tree[p].v = tree[(p &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span>].v; tree[p].id = tree[(p &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span>].id; &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后考虑如何更新，题目是将1一段区间替换成一段等差数列，也就是在权值线段树中把【d,d+r-l】进行区间+1操作就好，但是原有区间的数值该如何减去呢？</p>
+<p>此时我们引入珂朵莉树，用珂朵莉树维护一段等差数列</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">node</span>(l,r,v-l)<br></code></pre></td></tr></table></figure>
+
+<p>为什么将区间的值设置v-l呢？</p>
+<p>我们知道珂朵莉树会有切割操作，如果我们将节点的值设置为最左端的值，我们将区间切割后就会丢失这个最左值，也就是无法查询到等差数列的初始值**，但当我们把节点的值设置为v-l，他与区间中任何一个数相加都会得到这个点真实的值**</p>
+<p>于是我们可以设计出修改函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">assign</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r, <span class="hljs-type">int</span> v)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">auto</span> end = <span class="hljs-built_in">split</span>(r + <span class="hljs-number">1</span>), begin = <span class="hljs-built_in">split</span>(l);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> it = begin; it != end; ++it)<br>    &#123;<br>        <span class="hljs-built_in">update</span>(it-&gt;l + it-&gt;v, it-&gt;r + it-&gt;v, <span class="hljs-number">1</span>, N, <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>);<br>        <span class="hljs-comment">//删除原有数字产生的影响</span><br>        <span class="hljs-comment">//update就是正常的区间加1</span><br>    &#125;<br>    s.<span class="hljs-built_in">erase</span>(begin, end);<br>    s.<span class="hljs-built_in">insert</span>(<span class="hljs-built_in">p</span>(l, r, v));<br>    <span class="hljs-built_in">update</span>(l + v, r + v, <span class="hljs-number">1</span>, N, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="线段树解决实际问题（看起来无关线段树的问题）"><a href="#线段树解决实际问题（看起来无关线段树的问题）" class="headerlink" title="线段树解决实际问题（看起来无关线段树的问题）"></a>线段树解决实际问题（看起来无关线段树的问题）</h2><h3 id="1，数学计算"><a href="#1，数学计算" class="headerlink" title="1，数学计算"></a>1，<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4588#ide">数学计算</a></h3><p>如果只有操作1，那么就是求乘积的前缀，而操作2相当于把前面的一个乘数变为1，那么就可以想到线段树实现单点修改，区间求和，每次输出tree[1]即可</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ICPC%E8%AE%AD%E7%BB%83/" class="category-chain-item">ICPC训练</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/ICPC%E8%AE%AD%E7%BB%83/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="category-chain-item">算法竞赛</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="print-no-link">#数据结构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>线段树基础与进阶</div>
+      <div>https://fhbsxz.github.io/2026/05/06/tree/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/01/%E6%95%B0%E8%AE%BA/" title="线段树基础与进阶">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">线段树基础与进阶</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
